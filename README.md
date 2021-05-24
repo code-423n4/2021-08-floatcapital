@@ -14,16 +14,6 @@ Some of the checklists in this doc are for **C4 (🐺)** and some of them are fo
 
 # Contest scoping
 
-## 🐺 C4: Set up repos
-- [ ] Create a new private repo named `YYYY-MM-sponsorname` using this repo as a template.
-- [ ] Get GitHub handles from sponsor.
-- [ ] Add sponsor to this private repo with 'maintain' level access.
-- [ ] Send the sponsor contact the url for this repo to follow the instructions below and add contracts here. (Example message below)
-
-> I just sent the invitation to access a private repo we'll use to scope your contest. Once you accept the invite (it should be in your email), the repo will walk you through what we need step-by-step.
-
-- [ ] Delete this checklist and wait for sponsor to complete their scoping checklist.
-
 ## ⭐️ Sponsor: Provide contest scoping details
 
 Under "Contest scope information" below, include the following:

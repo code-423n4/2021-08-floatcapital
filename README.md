@@ -41,13 +41,13 @@ Under "Contest scope information" below, include the following:
 # Contest prep
 
 ## 🐺 C4: Contest prep
-- [ ] Rename this repo to reflect contest date (if applicable)
-- [ ] Rename contest H1 below
-- [ ] Add link to report form in contest details below
-- [ ] Update pot sizes
-- [ ] Fill in start and end times in contest bullets below.
+- [x] Rename this repo to reflect contest date (if applicable)
+- [x] Rename contest H1 below
+- [x] Add link to report form in contest details below
+- [x] Update pot sizes
+- [x] Fill in start and end times in contest bullets below.
 - [ ] Move any relevant information in "contest scope information" above to the bottom of this readme.
-- [ ] Add matching info to the [code423n4.com public contest data here](https://github.com/code-423n4/code423n4.com/tree/main/data/contests))
+- [x] Add matching info to the [code423n4.com public contest data here](https://github.com/code-423n4/code423n4.com/tree/main/data/contests))
 - [ ] Delete this checklist.
 
 ## ⭐️ Sponsor: Contest prep
@@ -59,14 +59,14 @@ Under "Contest scope information" below, include the following:
 
 ---
 
-# Sponsorname contest details
-- TBD main award pot
-- TBD gas optimization award pot
+# Float Capital contest details
+- $45,000 main award pot
+- $5,000 gas optimization award pot
 - Join [C4 Discord](https://discord.gg/EY5dvm3evD) to register
-- Submit findings [using the C4 form](https://c4-TBD.netlify.app/)
+- Submit findings [using the C4 form](https://code423n4.com/2021-08-float-capital-contest/submit)
 - [Read our guidelines for more details](https://code423n4.com/compete)
-- Starts TBD XXX XXX XX 00:00 UTC
-- Ends TBD XXX XXX XX 23:59 UTC
+- Starts 2021-08-05 00:00 UTC
+- Ends 2021-08-11 23:59 UTC
 
 This repo will be made public before the start of the contest. (C4 delete this line when made public)
 

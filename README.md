@@ -40,13 +40,27 @@ Under "Contest scope information" below, include the following:
 
 ## ⭐️ Sponsor: Provide marketing details
 
-- [ ] Your logo (URL or add file to this repo - SVG or other vector format preferred)
-- [ ] Your primary Twitter handle
-- [ ] Any other Twitter handles we can/should tag in (e.g. organizers' personal accounts, etc.)
-- [ ] Your Discord URI
-- [ ] Your website
-- [ ] Optional: Do you have any quirks, recurring themes, iconic tweets, community "secret handshake" stuff we could work in? How do your people recognize each other, for example?
-- [ ] Optional: your logo in Discord emoji format
+- [x] Your logo (URL or add file to this repo - SVG or other vector format preferred)
+See marketing assets folder.
+- [x] Your primary Twitter handle
+@float_capital
+- [x] Any other Twitter handles we can/should tag in (e.g. organizers' personal accounts, etc.)
+@jonjonclark
+@jasoonsmythe
+@denhampreen
+- [x] Your Discord URI
+https://discord.gg/J39xhyABfQ
+Is a discord URI our invite link?
+P.S. would love for you all to join our small but vibrant discord :) 
+- [x] Your website
+https://float.capital
+- [x] Optional: Do you have any quirks, recurring themes, iconic tweets, community "secret handshake" stuff we could work in? How do your people recognize each other, for example?
+Float like a butterfly, stake like bee. 
+We have virtual headquarters in cryptovoxels https://www.cryptovoxels.com/play?coords=W@452W,125S
+Fellow floatonians, or floaters (sometimes confused with floating poop in sea so we normally go with the former)
+Maybe the wolves and floatonians will be about!
+- [x] Optional: your logo in Discord emoji format
+See marketing assets folder. We have these emojis custom made for our discord. Not sure exactly what this is, but I am sure we have it. 
  
  ---
 

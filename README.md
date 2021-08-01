@@ -1,10 +1,41 @@
+# Float Capital
+
+## Useful links
+
+- [Testnet Aplication](https://float.capital/app/markets) (on Mumbai Testnet)
+- [Docs](https://docs.float.capital/)
+- [Discord](https://discord.gg/6yXy45Yhj9)
+- [Twitter](https://twitter.com/float_capital)
+
+## Video walk-throughs of smart-contracts
+
+- [LongShort](https://todo)
+- [Staker](https://todo)
+
+## Known trade-offs in the current design
+
+- **System does not allow price updates that are greater than 100%.**
+
+  _Mitigation_ - if the price moves more than 100% in our code we action a price movement of 99.99% which wipes out almost all the liquidity on one side of the market. But it doesn't destroy the market.
+
+- **Oracles are unreliable, faulty, manipulatable etc**
+
+  _Mitigation_ - we use a reputable 3rd party to handle this difficult part for us - namely Chainlink.
+
+- **The underlying yield mechanism might undergo breaking changes or updates**
+  _Mitigation_ - we use a 'yield manager' per market so this can evolve and develop over time.
+
+- **The oracle interface may change over time**
+  _Mitigation_ - we use a 'oracle manager' per market so this can be updated when necessary.
+
 # ✨ So you want to sponsor a contest
 
 This `README.md` contains a set of checklists for our contest collaboration.
 
-Your contest will use two repos: 
+Your contest will use two repos:
+
 - **a _contest_ repo** (this one), which is used for scoping your contest and for providing information to contestants (wardens)
-- **a _findings_ repo**, where issues are submitted. (We'll set that one up later.) 
+- **a _findings_ repo**, where issues are submitted. (We'll set that one up later.)
 
 Ultimately, when we launch the contest, this contest repo will be made public and will contain the smart contracts to be reviewed and all the information needed for contest participants. The findings repo will be made public after the contest is over and your team has mitigated the identified issues.
 
@@ -41,32 +72,32 @@ Under "Contest scope information" below, include the following:
 ## ⭐️ Sponsor: Provide marketing details
 
 - [x] Your logo (URL or add file to this repo - SVG or other vector format preferred)
-See marketing assets folder.
+      See marketing assets folder.
 - [x] Your primary Twitter handle
-@float_capital
+      @float_capital
 - [x] Any other Twitter handles we can/should tag in (e.g. organizers' personal accounts, etc.)
-@jonjonclark
-@jasoonsmythe
-@denhampreen
+      @jonjonclark
+      @jasoonsmythe
+      @denhampreen
 - [x] Your Discord URI
-https://discord.gg/J39xhyABfQ
-Is a discord URI our invite link?
-P.S. would love for you all to join our small but vibrant discord :) 
+      https://discord.gg/J39xhyABfQ
+      Is a discord URI our invite link?
+      P.S. would love for you all to join our small but vibrant discord :)
 - [x] Your website
-https://float.capital
+      https://float.capital
 - [x] Optional: Do you have any quirks, recurring themes, iconic tweets, community "secret handshake" stuff we could work in? How do your people recognize each other, for example?
-Float like a butterfly, stake like bee. 
-We have virtual headquarters in cryptovoxels https://www.cryptovoxels.com/play?coords=W@452W,125S
-Fellow floatonians, or floaters (sometimes confused with floating poop in sea so we normally go with the former)
-Maybe the wolves and floatonians will be about!
+      Float like a butterfly, stake like bee.
+      We have virtual headquarters in cryptovoxels https://www.cryptovoxels.com/play?coords=W@452W,125S
+      Fellow floatonians, or floaters (sometimes confused with floating poop in sea so we normally go with the former)
+      Maybe the wolves and floatonians will be about!
 - [x] Optional: your logo in Discord emoji format
-See marketing assets folder. We have these emojis custom made for our discord. Not sure exactly what this is, but I am sure we have it. 
- 
- ---
+      See marketing assets folder. We have these emojis custom made for our discord. Not sure exactly what this is, but I am sure we have it.
+  ***
 
 # Contest prep
 
 ## 🐺 C4: Contest prep
+
 - [x] Rename this repo to reflect contest date (if applicable)
 - [x] Rename contest H1 below
 - [x] Add link to report form in contest details below
@@ -77,19 +108,21 @@ See marketing assets folder. We have these emojis custom made for our discord. N
 - [ ] Delete this checklist.
 
 ## ⭐️ Sponsor: Contest prep
+
 - [ ] Make sure your code is thoroughly commented using the [NatSpec format](https://docs.soliditylang.org/en/v0.5.10/natspec-format.html#natspec-format).
 - [ ] Modify the bottom of this `README.md` file to describe how your code is supposed to work with links to any relevent documentation and any other criteria/details that the C4 Wardens should keep in mind when reviewing
 - [ ] Please have final versions of contracts and documentation added/updated in this repo **no less than 8 hours prior to contest start time.**
 - [ ] Ensure that you have access to the _findings_ repo where issues will be submitted.
-- [ ]  Promote the contest on Twitter (optional: tag in relevant protocols, etc.)
-- [ ]  Share it with your own communities (blog, Discord, Telegram, email newsletters, etc.)
-- [ ]  Optional: pre-record a high-level overview of your protocol (not just specific smart contract functions). This saves wardens a lot of time wading through documentation.
-- [ ]  Designate someone (or a team of people) to monitor DMs & questions in the C4 Discord (#questions channel) daily (Note: please don't discuss issues submitted by wardens in an open channel, as this could give hints to other wardens.)
+- [ ] Promote the contest on Twitter (optional: tag in relevant protocols, etc.)
+- [ ] Share it with your own communities (blog, Discord, Telegram, email newsletters, etc.)
+- [ ] Optional: pre-record a high-level overview of your protocol (not just specific smart contract functions). This saves wardens a lot of time wading through documentation.
+- [ ] Designate someone (or a team of people) to monitor DMs & questions in the C4 Discord (#questions channel) daily (Note: please don't discuss issues submitted by wardens in an open channel, as this could give hints to other wardens.)
 - [ ] Delete this checklist and all text above the line below when you're ready.
 
 ---
 
 # Float Capital contest details
+
 - $45,000 main award pot
 - $5,000 gas optimization award pot
 - Join [C4 Discord](https://discord.gg/EY5dvm3evD) to register

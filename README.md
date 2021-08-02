@@ -28,6 +28,14 @@
 - **The oracle interface may change over time**
   _Mitigation_ - we use a 'oracle manager' per market so this can be updated when necessary.
 
+## Other notes and thoughts
+
+We only check the return boolean (success) for erc20 methods on the payment token not for the synthetic token - this is safe since the synthetic token is written to never return false.
+
+Currently our synthetic tokens are 'pausable'. We are aware that this is not desired, there is a good chance we will remove this before launch - we just want to make sure we don't expose the system to unnecessary external risk - results from various audits will guide this decision.
+
+All our floating point arithmetic is using base 1e18. Additionally, in solidity, integer division rounds down - this is a potential source of bugs! For example, things to look out for, `(a+b+c)/d != a/d+b/d+c/d` in solidity, rather `(a+b+c)/d >= a/d+b/d+c/d`. Also when composing and optimising division and multiplication operations using, canceling out the `1e18` can lead to different output for different input - `(numerator / 1e18) * 1e18 / denominator != numerator / denominator` if the numerator is < 1e18 (as seen in the `_getEquivalentAmountSyntheticTokensOnTargetSide` function).
+
 # ✨ So you want to sponsor a contest
 
 This `README.md` contains a set of checklists for our contest collaboration.

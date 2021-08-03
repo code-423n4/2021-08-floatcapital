@@ -9,8 +9,7 @@
 
 ## Video walk-throughs of smart-contracts
 
-- [LongShort](https://todo)
-- [Staker](https://todo)
+- [Youtube playlist](https://www.youtube.com/playlist?list=PL7RT-0ybd7joiqKeGklvFxcc8dNWpPBCk)
 
 ## Known trade-offs in the current design
 

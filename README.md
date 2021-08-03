@@ -30,11 +30,13 @@
 
 ## Other notes and thoughts
 
-We only check the return boolean (success) for erc20 methods on the payment token not for the synthetic token - this is safe since the synthetic token is written to never return false.
+- We only check the return boolean (success) for erc20 methods on the payment token not for the synthetic token - this is safe since the synthetic token is written to never return false.
 
-Currently our synthetic tokens are 'pausable'. We are aware that this is not desired, there is a good chance we will remove this before launch - we just want to make sure we don't expose the system to unnecessary external risk - results from various audits will guide this decision.
+- Currently our synthetic tokens are inheriting form the open zeppelin `ERC20PresetMinterPauser` contract, but the pause functionality has been stripped out by our use of `_beforeTokenTransfer`. We have left the contracts inheriting from the MinterPauser because there is some chance we will add pause functionality before launch - we just want to make sure we don't expose the system to unnecessary external risk - results from various audits will guide this decision. If we don't launch a pausable synth token we will inherit from a more basic ERC20 implementation.
 
-All our floating point arithmetic is using base 1e18. Additionally, in solidity, integer division rounds down - this is a potential source of bugs! For example, things to look out for, `(a+b+c)/d != a/d+b/d+c/d` in solidity, rather `(a+b+c)/d >= a/d+b/d+c/d`. Also when composing and optimising division and multiplication operations using, canceling out the `1e18` can lead to different output for different input - `(numerator / 1e18) * 1e18 / denominator != numerator / denominator` if the numerator is < 1e18 (as seen in the `_getEquivalentAmountSyntheticTokensOnTargetSide` function).
+- All our floating point arithmetic is using base 1e18. Additionally, in solidity, integer division rounds down - this is a potential source of bugs! For example, things to look out for, `(a+b+c)/d != a/d+b/d+c/d` in solidity, rather `(a+b+c)/d >= a/d+b/d+c/d`. Also when composing and optimising division and multiplication operations using, canceling out the `1e18` can lead to different output for different input - `(numerator / 1e18) * 1e18 / denominator != numerator / denominator` if the numerator is < 1e18 (as seen in the `_getEquivalentAmountSyntheticTokensOnTargetSide` function).
+
+- We use mappings of single values almost everywhere. There are lots of places that structs could potentially be used. Our initial version of these contracts used structs, however it became quite unwieldy. Examples include `batched_*` and `userNextPrice_` variables in LongShort.sol and `stakerTokenShiftIndex_*`, `userNextPrice_*` variables in Staker.sol.
 
 # ✨ So you want to sponsor a contest
 

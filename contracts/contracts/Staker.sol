@@ -558,11 +558,6 @@ contract Staker is IStaker, Initializable {
 
   /**
   @notice Creates a new accumulativeIssuancePerStakedSynthSnapshot for the given token and updates indexes.
-  @dev this code can be gas optimized - if timeDelta since last update is zero 
-       (which is the case if there is an existing cccumulativeIssuancePerStakeStakedSynthSnapshot in the same block before a LongShort market update)
-       then it could keep the same latestRewardIndex and just update the values in it.
-
-       However, correctness over optimisation in these edge cases, so create a new snapshot and increment the `latestRewardIndex`
   @param shortValue The value locked in the short side of the market.
   @param longValue The value locked in the long side of the market.
   @param shortPrice The price of the short token as defined in LongShort.sol
@@ -619,28 +614,25 @@ contract Staker is IStaker, Initializable {
     uint256 shortPrice,
     uint256 longValue,
     uint256 shortValue,
-    uint256 stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted, // This value should be ALWAYS be zero if no shift occured
-    bool forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp
+    uint256 stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted // This value should be ALWAYS be zero if no shift occured
   ) external override onlyLongShort {
+    // Only add a new accumulativeIssuancePerStakedSynthSnapshot if some time has passed.
+
+    // the `stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted` value will be 0 if there is no staker related action in an executed batch
+    if (stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted > 0) {
+      stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mapping[
+        batched_stakerNextTokenShiftIndex[marketIndex]
+      ] = stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted;
+      stakerTokenShiftIndex_to_accumulativeFloatIssuanceSnapshotIndex_mapping[
+        batched_stakerNextTokenShiftIndex[marketIndex]
+      ] = latestRewardIndex[marketIndex] + 1;
+      batched_stakerNextTokenShiftIndex[marketIndex] += 1;
+
+      emit SyntheticTokensShifted();
+    }
+
     // Time delta is fetched twice in below code, can pass through? Which is less gas?
-    // Only add a new accumulativeIssuancePerStakedSynthSnapshot if some time has passed OR if there is a forced update (even if it is on the same block)
-    if (
-      _calculateTimeDeltaFromLastAccumulativeIssuancePerStakedSynthSnapshot(marketIndex) > 0 ||
-      forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp
-    ) {
-      // the `stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted` value will be 0 if there is no staker related action in an executed batch
-      if (stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted > 0) {
-        stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mapping[
-          batched_stakerNextTokenShiftIndex[marketIndex]
-        ] = stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted;
-        stakerTokenShiftIndex_to_accumulativeFloatIssuanceSnapshotIndex_mapping[
-          batched_stakerNextTokenShiftIndex[marketIndex]
-        ] = latestRewardIndex[marketIndex] + 1;
-        batched_stakerNextTokenShiftIndex[marketIndex] += 1;
-
-        emit SyntheticTokensShifted();
-      }
-
+    if (_calculateTimeDeltaFromLastAccumulativeIssuancePerStakedSynthSnapshot(marketIndex) > 0) {
       _setCurrentAccumulativeIssuancePerStakeStakedSynthSnapshot(
         marketIndex,
         longPrice,

@@ -20,13 +20,13 @@ function testUnit(contracts, param) {
           Globals.before_once$p(function (param) {
                 return StakerSmocked.InternalMock.setupFunctionForUnitTesting(contracts.contents.staker, "pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations");
               });
-          var setup = function (stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted, timeDelta, forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp) {
+          var setup = function (stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted, timeDelta) {
             StakerSmocked.InternalMock.mock_calculateTimeDeltaFromLastAccumulativeIssuancePerStakedSynthSnapshotToReturn(timeDelta);
-            return contracts.contents.staker.pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex, longPrice, shortPrice, longValue, shortValue, stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted, forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp);
+            return contracts.contents.staker.pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex, longPrice, shortPrice, longValue, shortValue, stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted);
           };
           describe("modifiers", (function () {
                   it("calls the onlyLongShort modifier", (function () {
-                          return LetOps.Await.let_(contracts.contents.staker.pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex, longPrice, shortPrice, longValue, shortValue, Globals.zeroBn, true), (function (param) {
+                          return LetOps.Await.let_(contracts.contents.staker.pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex, longPrice, shortPrice, longValue, shortValue, Globals.zeroBn), (function (param) {
                                         return Chai.intEqual(undefined, StakerSmocked.InternalMock.onlyLongShortModifierLogicCalls(undefined).length, 1);
                                       }));
                         }));
@@ -35,7 +35,7 @@ function testUnit(contracts, param) {
           describe("case timeDelta > 0", (function () {
                   var stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted = Helpers.randomTokenAmount(undefined);
                   Globals.before_once$p(function (param) {
-                        return setup(stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted, timeDeltaGreaterThanZero, true);
+                        return setup(stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted, timeDeltaGreaterThanZero);
                       });
                   it("calls calculateTimeDelta with correct arguments", (function () {
                           return Chai.recordArrayDeepEqualFlat(undefined, StakerSmocked.InternalMock._calculateTimeDeltaFromLastAccumulativeIssuancePerStakedSynthSnapshotCalls(undefined), [{
@@ -62,7 +62,7 @@ function testUnit(contracts, param) {
                   };
                   Globals.before_once$p(function (param) {
                         return LetOps.Await.let_(contracts.contents.staker.setAddNewStateForFloatRewardsGlobals(marketIndex, batched_stakerNextTokenShiftIndex, latestRewardIndex), (function (param) {
-                                      pushUpdatedMarketPricesToUpdateFloatIssuanceCalculationsTxPromise.contents = setup(stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted, timeDeltaGreaterThanZero, true);
+                                      pushUpdatedMarketPricesToUpdateFloatIssuanceCalculationsTxPromise.contents = setup(stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted, timeDeltaGreaterThanZero);
                                       return pushUpdatedMarketPricesToUpdateFloatIssuanceCalculationsTxPromise.contents;
                                     }));
                       });
@@ -87,20 +87,9 @@ function testUnit(contracts, param) {
                   
                 }));
           describe("case timeDelta == 0", (function () {
-                  it("doesn't call setCurrentAccumulativeIssuancePerStakeStakedSynthSnapshot if there isn't a forced update", (function () {
-                          return LetOps.Await.let_(setup(Globals.zeroBn, CONSTANTS.zeroBn, false), (function (param) {
+                  it("doesn't call setCurrentAccumulativeIssuancePerStakeStakedSynthSnapshot", (function () {
+                          return LetOps.Await.let_(setup(Globals.zeroBn, CONSTANTS.zeroBn), (function (param) {
                                         return Chai.recordArrayDeepEqualFlat(undefined, StakerSmocked.InternalMock._setCurrentAccumulativeIssuancePerStakeStakedSynthSnapshotCalls(undefined), []);
-                                      }));
-                        }));
-                  it("still calls setCurrentAccumulativeIssuancePerStakeStakedSynthSnapshot if there IS a forced update", (function () {
-                          return LetOps.Await.let_(setup(Globals.zeroBn, CONSTANTS.zeroBn, true), (function (param) {
-                                        return Chai.recordArrayDeepEqualFlat(undefined, StakerSmocked.InternalMock._setCurrentAccumulativeIssuancePerStakeStakedSynthSnapshotCalls(undefined), [{
-                                                      marketIndex: marketIndex,
-                                                      longPrice: longPrice,
-                                                      shortPrice: shortPrice,
-                                                      longValue: longValue,
-                                                      shortValue: shortValue
-                                                    }]);
                                       }));
                         }));
                   

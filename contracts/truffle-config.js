@@ -2,14 +2,6 @@ const blockchainNodeHost = process.env.BLOCKCHAIN_NODE_HOST || "localhost";
 
 module.exports = {
   networks: {
-    development: {
-      host: blockchainNodeHost, // Localhost (default: none)
-      port: 8545, // Standard Ethereum port (default: none)
-      network_id: "*", // Any network (default: none)
-      gasPrice: 4000000000, // 40 gwei
-      timeoutBlocks: 50000,
-      networkCheckTimeout: 1000000,
-    },
   },
   mocha: {
     reporter: "eth-gas-reporter",

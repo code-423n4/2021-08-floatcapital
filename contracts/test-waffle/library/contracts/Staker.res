@@ -162,7 +162,7 @@ accumulativeFloatPerSyntheticToken_short: Ethers.BigNumber.t,
 
   @send
   external pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations: (
-    t,~marketIndex: int,~longPrice: Ethers.BigNumber.t,~shortPrice: Ethers.BigNumber.t,~longValue: Ethers.BigNumber.t,~shortValue: Ethers.BigNumber.t,~stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted: Ethers.BigNumber.t,~forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp: bool,
+    t,~marketIndex: int,~longPrice: Ethers.BigNumber.t,~shortPrice: Ethers.BigNumber.t,~longValue: Ethers.BigNumber.t,~shortValue: Ethers.BigNumber.t,~stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted: Ethers.BigNumber.t,
   ) => JsPromise.t<transaction> = "pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations"
 
   type safeExponentBitShiftingReturn = Ethers.BigNumber.t
@@ -534,7 +534,7 @@ accumulativeFloatPerSyntheticToken_short: Ethers.BigNumber.t,
 
   @send
   external pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations: (
-    t,~marketIndex: int,~longPrice: Ethers.BigNumber.t,~shortPrice: Ethers.BigNumber.t,~longValue: Ethers.BigNumber.t,~shortValue: Ethers.BigNumber.t,~stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted: Ethers.BigNumber.t,~forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp: bool,
+    t,~marketIndex: int,~longPrice: Ethers.BigNumber.t,~shortPrice: Ethers.BigNumber.t,~longValue: Ethers.BigNumber.t,~shortValue: Ethers.BigNumber.t,~stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted: Ethers.BigNumber.t,
   ) => JsPromise.t<transaction> = "pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations"
 
   type safeExponentBitShiftingReturn = Ethers.BigNumber.t

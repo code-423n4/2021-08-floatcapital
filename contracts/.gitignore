@@ -29,3 +29,5 @@ ast
 
 # No need to keep javascript files in contract tests
 contract-docs
+
+.openzeppelin

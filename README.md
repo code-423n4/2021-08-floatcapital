@@ -92,3 +92,15 @@ We only check the return boolean (success) for erc20 methods on the payment toke
 To test deploying this code to a testnet run `truffle develop` then inside the integrated terminal run `migrate`.
 
 **Note on tests** Some of the test are written in truffle (those are the very old tests - most of them can be deprecated), the rest are written with hardhat-waffle (written with [Rescript](https://rescript-lang.org/) but with vendored javascript for convenience).
+
+# Scope
+
+| File                 | Blank lines | comments | All lines of code (excluding Blank Lines and Comments) | statements | branches | functions | Lines (excluding global variable declarations, function signatures , run over lines and event definitions) |
+| -------------------- | ----------- | -------- | ------------------------------------------------------ | ---------- | -------- | --------- | ---------------------------------------------------------------------------------------------------------- |
+| LongShort.sol        | 167         | 332      | 739                                                    | 214        | 70       | 45        | 217                                                                                                        |
+| Staker.sol           | 153         | 272      | 552                                                    | 184        | 64       | 41        | 188                                                                                                        |
+| TokenFactory.sol     | 13          | 31       | 33                                                     | 9          | 2        | 3         | 10                                                                                                         |
+| YieldManagerAave.sol | 40          | 79       | 97                                                     | 42         | 10       | 8         | 43                                                                                                         |
+| FloatToken.sol       | 9           | 30       | 30                                                     | 10         | 2        | 3         | 10                                                                                                         |
+| SyntheticToken.sol   | 12          | 60       | 60                                                     | 16         | 6        | 7         | 16                                                                                                         |
+| TOTAL                | 394         | 804      | 1511                                                   | 475        | 154      | 107       | 484                                                                                                        |

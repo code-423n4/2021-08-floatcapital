@@ -4,7 +4,7 @@ https://float.capital
 
 ## setup
 
-`npm i`
+`yarn`
 
 ## tests
 
@@ -12,23 +12,22 @@ https://float.capital
 
 > Requires node v14+ for truffle tests
 
-`npm run test`
+`yarn test`
 
 ### Only truffle tests
 
-`npm run test-truffle`
+`yarn test-truffle`
 
 ### Only waffle tests
 
-`npm run test-waffle`
+`yarn test-waffle`
 
 ## Deploy contracts
 
 `npm i -g truffle`
-`npm i -g ganache-cli`
 
-In one terminal run a local instance of a blockchain
-`ganache-cli`
+Run the truffle console:
+`truffle develop`
 
-In another terminal run local network migrations
-`truffle migrate`
+Once inside the truffle console, run:
+`migrate`

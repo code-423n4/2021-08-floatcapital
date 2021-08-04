@@ -1,8 +1,6 @@
 # ⭐️ Float Capital ⭐️
 
-
 ![float capital](/marketing-assets/float-saver.gif)
-
 
 # Float Capital contest details
 
@@ -13,7 +11,6 @@
 - [Read our guidelines for more details](https://code423n4.com/compete)
 - Starts 2021-08-05 00:00 UTC
 - Ends 2021-08-11 23:59 UTC
-
 
 ## Hello Wardens 👋
 
@@ -58,11 +55,23 @@ We are open to requests to create videos on specific parts of the code that you 
 
   _Mitigation_ - we use a 'oracle manager' per market so this can be updated when necessary.
 
+## Preemptive questions and answers
+
+- **Why do a lot of the functions have `virtual` modifiers?**
+
+The virtual modifiers exist as part of our development test environment framework. It allows us to unit test core code by overriding these functions in code generated mocks.
+
+- **Why don't you check boolean return status for erc20 methods?**
+
+We only check the return boolean (success) for erc20 methods on the payment token not for the synthetic token - this is safe since the synthetic token is written to never return false.
+
+- **Why is long & short represented as a boolean and not an enum?**
+
+[Enum's within mappings break hardhat stack traces](https://github.com/nomiclabs/hardhat/issues/1564)
+
 ## Other notes and thoughts
 
-- We only check the return boolean (success) for erc20 methods on the payment token not for the synthetic token - this is safe since the synthetic token is written to never return false.
-
-- Currently our synthetic tokens are inheriting form the open zeppelin `ERC20PresetMinterPauser` contract, but the pause functionality has been stripped out by our use of `_beforeTokenTransfer`. We have left the contracts inheriting from the MinterPauser because there is some chance we will add pause functionality before launch - we just want to make sure we don't expose the system to unnecessary external risk - results from various audits will guide this decision. If we don't launch a pausable synth token we will inherit from a more basic ERC20 implementation.
+- Currently our synthetic tokens are inheriting from the open zeppelin `ERC20PresetMinterPauser` contract, but the pause functionality has been stripped out by our use of `_beforeTokenTransfer`. We have left the contracts inheriting from the MinterPauser because there is some chance we will add pause functionality before launch - we just want to make sure we don't expose the system to unnecessary external risk - results from various audits will guide this decision. If we don't launch a pausable synth token we will inherit from a more basic ERC20 implementation.
 
 - All our floating point arithmetic is using base 1e18. Additionally, in solidity, integer division rounds down - this is a potential source of bugs! For example, things to look out for, `(a+b+c)/d != a/d+b/d+c/d` in solidity, rather `(a+b+c)/d >= a/d+b/d+c/d`. Also when composing and optimising division and multiplication operations using, canceling out the `1e18` can lead to different output for different input - `(numerator / 1e18) * 1e18 / denominator != numerator / denominator` if the numerator is < 1e18 (as seen in the `_getEquivalentAmountSyntheticTokensOnTargetSide` function).
 
@@ -70,10 +79,13 @@ We are open to requests to create videos on specific parts of the code that you 
 
 - We use a unique method for unit testing. If you are interested in how we unit test you can watch [this youtube video](https://youtu.be/E08d87QHrOo) - the framework is a WIP - but it does its job. We use [smock](https://github.com/ethereum-optimism/optimism/tree/develop/packages/smock) for smocking and some auto-generated code to unit test internal functions (see `contracts/testing/generated/LongShortForInternalMocking.sol` and `contracts/testing/generated/LongShortMockable.sol` as an example). This is why we make almost all of our functions `virtual` - this doesn't affect the security of our contracts once deployed, but it does mean that users who inherit these contracts must take extra care. The `virtual` keyword was added to [solidity 0.6](https://docs.soliditylang.org/en/v0.6.1/060-breaking-changes.html#explicitness-requirements) to make it clear to developers what functions should or shouldn't be inherited.
 
-- FLT token issuance rate [maths]https://www.overleaf.com/read/jpyhjgrvhfkr is here in latex. This is quite a beast and we are working on a youtube video explaining the logic behind it. The premise is the side supplying more valuable liquidity (the underbalanced side) should earn more FLT by staking per dollar staked as opposed to overbalanced side liquidity being staked. This is to incentivize equal liquidity in long and short positions. The purpose of this function is that it has a horizontal offset and exponent that basically allow us 'tweak' these incentives as we understand how the market reacts to them. The horizontal offset allows us to account for an asymmetric demand and supply, where even at 50/50 liquidity, we might reward one side more due to natural tendency to favour that position. The exponent dictates how strong we want the incentive to be. 
+- FLT token issuance rate [maths](https://www.overleaf.com/read/jpyhjgrvhfkr) is here in latex. This is quite a beast and we are working on a youtube video explaining the logic behind it. The premise is the side supplying more valuable liquidity (the underbalanced side) should earn more FLT by staking per dollar staked as opposed to overbalanced side liquidity being staked. This is to incentivize equal liquidity in long and short positions. The purpose of this function is that it has a horizontal offset and exponent that basically allow us 'tweak' these incentives as we understand how the market reacts to them. The horizontal offset allows us to account for an asymmetric demand and supply, where even at 50/50 liquidity, we might reward one side more due to natural tendency to favour that position. The exponent dictates how strong we want the incentive to be.
 
-- 
-## How Run The Tests
+- The contracts are intended to be used with DAI and potentially other ERC20 payment tokens with 18 decimal places.
+
+- Internal governance will be managed by a Gnosis Safe with 3 signers of 5 owners affording diversified security and sufficient recoverability.
+
+## How to run the tests
 
 `yarn test`
 

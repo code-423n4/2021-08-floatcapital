@@ -19,10 +19,7 @@ interface IBandOracle {
   /*
    *Returns price data for given base/quote pair. Reverts if not available.
    */
-  function getReferenceData(string memory _base, string memory _quote)
-    external
-    view
-    returns (ReferenceData memory);
+  function getReferenceData(string memory _base, string memory _quote) external view returns (ReferenceData memory);
 
   /*
    * Batch version of getReferenceData(...).

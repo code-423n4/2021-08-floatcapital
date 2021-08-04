@@ -104,3 +104,6 @@ dist
 .tern-port
 
 .DS_Store
+contracts/artifacts
+contracts/ast
+contracts/cache

@@ -32,8 +32,7 @@ contract StakerMockable is StakerInternalStateSetters {
   function onlyAdminModifierLogic() internal override {
     if (
       shouldUseMock &&
-      keccak256(abi.encodePacked(functionToNotMock)) !=
-      keccak256(abi.encodePacked("onlyAdminModifierLogic"))
+      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("onlyAdminModifierLogic"))
     ) {
       return mocker.onlyAdminModifierLogicMock();
     } else {
@@ -48,8 +47,7 @@ contract StakerMockable is StakerInternalStateSetters {
   function onlyValidSyntheticModifierLogic(address _synth) internal override {
     if (
       shouldUseMock &&
-      keccak256(abi.encodePacked(functionToNotMock)) !=
-      keccak256(abi.encodePacked("onlyValidSyntheticModifierLogic"))
+      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("onlyValidSyntheticModifierLogic"))
     ) {
       return mocker.onlyValidSyntheticModifierLogicMock(_synth);
     } else {
@@ -64,8 +62,7 @@ contract StakerMockable is StakerInternalStateSetters {
   function onlyValidMarketModifierLogic(uint32 marketIndex) internal override {
     if (
       shouldUseMock &&
-      keccak256(abi.encodePacked(functionToNotMock)) !=
-      keccak256(abi.encodePacked("onlyValidMarketModifierLogic"))
+      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("onlyValidMarketModifierLogic"))
     ) {
       return mocker.onlyValidMarketModifierLogicMock(marketIndex);
     } else {
@@ -80,8 +77,7 @@ contract StakerMockable is StakerInternalStateSetters {
   function onlyLongShortModifierLogic() internal override {
     if (
       shouldUseMock &&
-      keccak256(abi.encodePacked(functionToNotMock)) !=
-      keccak256(abi.encodePacked("onlyLongShortModifierLogic"))
+      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("onlyLongShortModifierLogic"))
     ) {
       return mocker.onlyLongShortModifierLogicMock();
     } else {
@@ -96,8 +92,7 @@ contract StakerMockable is StakerInternalStateSetters {
   function _changeFloatPercentage(uint256 newFloatPercentage) internal override {
     if (
       shouldUseMock &&
-      keccak256(abi.encodePacked(functionToNotMock)) !=
-      keccak256(abi.encodePacked("_changeFloatPercentage"))
+      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_changeFloatPercentage"))
     ) {
       return mocker._changeFloatPercentageMock(newFloatPercentage);
     } else {
@@ -109,14 +104,10 @@ contract StakerMockable is StakerInternalStateSetters {
     return super._changeUnstakeFee(marketIndex, newMarketUnstakeFee_e18);
   }
 
-  function _changeUnstakeFee(uint32 marketIndex, uint256 newMarketUnstakeFee_e18)
-    internal
-    override
-  {
+  function _changeUnstakeFee(uint32 marketIndex, uint256 newMarketUnstakeFee_e18) internal override {
     if (
       shouldUseMock &&
-      keccak256(abi.encodePacked(functionToNotMock)) !=
-      keccak256(abi.encodePacked("_changeUnstakeFee"))
+      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_changeUnstakeFee"))
     ) {
       return mocker._changeUnstakeFeeMock(marketIndex, newMarketUnstakeFee_e18);
     } else {
@@ -142,31 +133,27 @@ contract StakerMockable is StakerInternalStateSetters {
       keccak256(abi.encodePacked(functionToNotMock)) !=
       keccak256(abi.encodePacked("_changeMarketLaunchIncentiveParameters"))
     ) {
-      return
-        mocker._changeMarketLaunchIncentiveParametersMock(marketIndex, period, initialMultiplier);
+      return mocker._changeMarketLaunchIncentiveParametersMock(marketIndex, period, initialMultiplier);
     } else {
       return super._changeMarketLaunchIncentiveParameters(marketIndex, period, initialMultiplier);
     }
   }
 
-  function _changeBalanceIncentiveExponentExposed(
-    uint32 marketIndex,
-    uint256 _balanceIncentiveCurve_exponent
-  ) external {
+  function _changeBalanceIncentiveExponentExposed(uint32 marketIndex, uint256 _balanceIncentiveCurve_exponent)
+    external
+  {
     return super._changeBalanceIncentiveExponent(marketIndex, _balanceIncentiveCurve_exponent);
   }
 
-  function _changeBalanceIncentiveExponent(
-    uint32 marketIndex,
-    uint256 _balanceIncentiveCurve_exponent
-  ) internal override {
+  function _changeBalanceIncentiveExponent(uint32 marketIndex, uint256 _balanceIncentiveCurve_exponent)
+    internal
+    override
+  {
     if (
       shouldUseMock &&
-      keccak256(abi.encodePacked(functionToNotMock)) !=
-      keccak256(abi.encodePacked("_changeBalanceIncentiveExponent"))
+      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_changeBalanceIncentiveExponent"))
     ) {
-      return
-        mocker._changeBalanceIncentiveExponentMock(marketIndex, _balanceIncentiveCurve_exponent);
+      return mocker._changeBalanceIncentiveExponentMock(marketIndex, _balanceIncentiveCurve_exponent);
     } else {
       return super._changeBalanceIncentiveExponent(marketIndex, _balanceIncentiveCurve_exponent);
     }
@@ -176,50 +163,29 @@ contract StakerMockable is StakerInternalStateSetters {
     uint32 marketIndex,
     int256 _balanceIncentiveCurve_equilibriumOffset
   ) external {
-    return
-      super._changeBalanceIncentiveEquilibriumOffset(
-        marketIndex,
-        _balanceIncentiveCurve_equilibriumOffset
-      );
+    return super._changeBalanceIncentiveEquilibriumOffset(marketIndex, _balanceIncentiveCurve_equilibriumOffset);
   }
 
-  function _changeBalanceIncentiveEquilibriumOffset(
-    uint32 marketIndex,
-    int256 _balanceIncentiveCurve_equilibriumOffset
-  ) internal override {
+  function _changeBalanceIncentiveEquilibriumOffset(uint32 marketIndex, int256 _balanceIncentiveCurve_equilibriumOffset)
+    internal
+    override
+  {
     if (
       shouldUseMock &&
       keccak256(abi.encodePacked(functionToNotMock)) !=
       keccak256(abi.encodePacked("_changeBalanceIncentiveEquilibriumOffset"))
     ) {
-      return
-        mocker._changeBalanceIncentiveEquilibriumOffsetMock(
-          marketIndex,
-          _balanceIncentiveCurve_equilibriumOffset
-        );
+      return mocker._changeBalanceIncentiveEquilibriumOffsetMock(marketIndex, _balanceIncentiveCurve_equilibriumOffset);
     } else {
-      return
-        super._changeBalanceIncentiveEquilibriumOffset(
-          marketIndex,
-          _balanceIncentiveCurve_equilibriumOffset
-        );
+      return super._changeBalanceIncentiveEquilibriumOffset(marketIndex, _balanceIncentiveCurve_equilibriumOffset);
     }
   }
 
-  function _getMarketLaunchIncentiveParametersExposed(uint32 marketIndex)
-    external
-    view
-    returns (uint256, uint256)
-  {
+  function _getMarketLaunchIncentiveParametersExposed(uint32 marketIndex) external view returns (uint256, uint256) {
     return super._getMarketLaunchIncentiveParameters(marketIndex);
   }
 
-  function _getMarketLaunchIncentiveParameters(uint32 marketIndex)
-    internal
-    view
-    override
-    returns (uint256, uint256)
-  {
+  function _getMarketLaunchIncentiveParameters(uint32 marketIndex) internal view override returns (uint256, uint256) {
     if (
       shouldUseMock &&
       keccak256(abi.encodePacked(functionToNotMock)) !=
@@ -236,10 +202,7 @@ contract StakerMockable is StakerInternalStateSetters {
   }
 
   function _getKValue(uint32 marketIndex) internal view override returns (uint256) {
-    if (
-      shouldUseMock &&
-      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_getKValue"))
-    ) {
+    if (shouldUseMock && keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_getKValue"))) {
       return mocker._getKValueMock(marketIndex);
     } else {
       return super._getKValue(marketIndex);
@@ -253,8 +216,7 @@ contract StakerMockable is StakerInternalStateSetters {
     uint256 longValue,
     uint256 shortValue
   ) external view returns (uint256 longFloatPerSecond, uint256 shortFloatPerSecond) {
-    return
-      super._calculateFloatPerSecond(marketIndex, longPrice, shortPrice, longValue, shortValue);
+    return super._calculateFloatPerSecond(marketIndex, longPrice, shortPrice, longValue, shortValue);
   }
 
   function _calculateFloatPerSecond(
@@ -266,26 +228,19 @@ contract StakerMockable is StakerInternalStateSetters {
   ) internal view override returns (uint256 longFloatPerSecond, uint256 shortFloatPerSecond) {
     if (
       shouldUseMock &&
-      keccak256(abi.encodePacked(functionToNotMock)) !=
-      keccak256(abi.encodePacked("_calculateFloatPerSecond"))
+      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_calculateFloatPerSecond"))
     ) {
-      return
-        mocker._calculateFloatPerSecondMock(
-          marketIndex,
-          longPrice,
-          shortPrice,
-          longValue,
-          shortValue
-        );
+      return mocker._calculateFloatPerSecondMock(marketIndex, longPrice, shortPrice, longValue, shortValue);
     } else {
-      return
-        super._calculateFloatPerSecond(marketIndex, longPrice, shortPrice, longValue, shortValue);
+      return super._calculateFloatPerSecond(marketIndex, longPrice, shortPrice, longValue, shortValue);
     }
   }
 
-  function _calculateTimeDeltaFromLastAccumulativeIssuancePerStakedSynthSnapshotExposed(
-    uint32 marketIndex
-  ) external view returns (uint256) {
+  function _calculateTimeDeltaFromLastAccumulativeIssuancePerStakedSynthSnapshotExposed(uint32 marketIndex)
+    external
+    view
+    returns (uint256)
+  {
     return super._calculateTimeDeltaFromLastAccumulativeIssuancePerStakedSynthSnapshot(marketIndex);
   }
 
@@ -298,17 +253,11 @@ contract StakerMockable is StakerInternalStateSetters {
     if (
       shouldUseMock &&
       keccak256(abi.encodePacked(functionToNotMock)) !=
-      keccak256(
-        abi.encodePacked("_calculateTimeDeltaFromLastAccumulativeIssuancePerStakedSynthSnapshot")
-      )
+      keccak256(abi.encodePacked("_calculateTimeDeltaFromLastAccumulativeIssuancePerStakedSynthSnapshot"))
     ) {
-      return
-        mocker._calculateTimeDeltaFromLastAccumulativeIssuancePerStakedSynthSnapshotMock(
-          marketIndex
-        );
+      return mocker._calculateTimeDeltaFromLastAccumulativeIssuancePerStakedSynthSnapshotMock(marketIndex);
     } else {
-      return
-        super._calculateTimeDeltaFromLastAccumulativeIssuancePerStakedSynthSnapshot(marketIndex);
+      return super._calculateTimeDeltaFromLastAccumulativeIssuancePerStakedSynthSnapshot(marketIndex);
     }
   }
 
@@ -320,13 +269,7 @@ contract StakerMockable is StakerInternalStateSetters {
     uint256 shortValue
   ) external view returns (uint256 longCumulativeRates, uint256 shortCumulativeRates) {
     return
-      super._calculateNewCumulativeIssuancePerStakedSynth(
-        marketIndex,
-        longPrice,
-        shortPrice,
-        longValue,
-        shortValue
-      );
+      super._calculateNewCumulativeIssuancePerStakedSynth(marketIndex, longPrice, shortPrice, longValue, shortValue);
   }
 
   function _calculateNewCumulativeIssuancePerStakedSynth(
@@ -351,13 +294,7 @@ contract StakerMockable is StakerInternalStateSetters {
         );
     } else {
       return
-        super._calculateNewCumulativeIssuancePerStakedSynth(
-          marketIndex,
-          longPrice,
-          shortPrice,
-          longValue,
-          shortValue
-        );
+        super._calculateNewCumulativeIssuancePerStakedSynth(marketIndex, longPrice, shortPrice, longValue, shortValue);
     }
   }
 
@@ -436,8 +373,7 @@ contract StakerMockable is StakerInternalStateSetters {
   ) internal view override returns (uint256 floatReward) {
     if (
       shouldUseMock &&
-      keccak256(abi.encodePacked(functionToNotMock)) !=
-      keccak256(abi.encodePacked("_calculateAccumulatedFloatInRange"))
+      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_calculateAccumulatedFloatInRange"))
     ) {
       return
         mocker._calculateAccumulatedFloatInRangeMock(
@@ -459,10 +395,7 @@ contract StakerMockable is StakerInternalStateSetters {
     }
   }
 
-  function _calculateAccumulatedFloatExposed(uint32 marketIndex, address user)
-    external
-    returns (uint256 floatReward)
-  {
+  function _calculateAccumulatedFloatExposed(uint32 marketIndex, address user) external returns (uint256 floatReward) {
     return super._calculateAccumulatedFloat(marketIndex, user);
   }
 
@@ -473,8 +406,7 @@ contract StakerMockable is StakerInternalStateSetters {
   {
     if (
       shouldUseMock &&
-      keccak256(abi.encodePacked(functionToNotMock)) !=
-      keccak256(abi.encodePacked("_calculateAccumulatedFloat"))
+      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_calculateAccumulatedFloat"))
     ) {
       return mocker._calculateAccumulatedFloatMock(marketIndex, user);
     } else {
@@ -487,10 +419,7 @@ contract StakerMockable is StakerInternalStateSetters {
   }
 
   function _mintFloat(address user, uint256 floatToMint) internal override {
-    if (
-      shouldUseMock &&
-      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_mintFloat"))
-    ) {
+    if (shouldUseMock && keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_mintFloat"))) {
       return mocker._mintFloatMock(user, floatToMint);
     } else {
       return super._mintFloat(user, floatToMint);
@@ -504,8 +433,7 @@ contract StakerMockable is StakerInternalStateSetters {
   function _mintAccumulatedFloat(uint32 marketIndex, address user) internal override {
     if (
       shouldUseMock &&
-      keccak256(abi.encodePacked(functionToNotMock)) !=
-      keccak256(abi.encodePacked("_mintAccumulatedFloat"))
+      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_mintAccumulatedFloat"))
     ) {
       return mocker._mintAccumulatedFloatMock(marketIndex, user);
     } else {
@@ -513,20 +441,14 @@ contract StakerMockable is StakerInternalStateSetters {
     }
   }
 
-  function _mintAccumulatedFloatMultiExposed(uint32[] calldata marketIndexes, address user)
-    external
-  {
+  function _mintAccumulatedFloatMultiExposed(uint32[] calldata marketIndexes, address user) external {
     return super._mintAccumulatedFloatMulti(marketIndexes, user);
   }
 
-  function _mintAccumulatedFloatMulti(uint32[] calldata marketIndexes, address user)
-    internal
-    override
-  {
+  function _mintAccumulatedFloatMulti(uint32[] calldata marketIndexes, address user) internal override {
     if (
       shouldUseMock &&
-      keccak256(abi.encodePacked(functionToNotMock)) !=
-      keccak256(abi.encodePacked("_mintAccumulatedFloatMulti"))
+      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_mintAccumulatedFloatMulti"))
     ) {
       return mocker._mintAccumulatedFloatMultiMock(marketIndexes, user);
     } else {
@@ -534,14 +456,9 @@ contract StakerMockable is StakerInternalStateSetters {
     }
   }
 
-  function stakeFromUser(address from, uint256 amount)
-    public
-    override
-    onlyValidSynthetic((msg.sender))
-  {
+  function stakeFromUser(address from, uint256 amount) public override onlyValidSynthetic((msg.sender)) {
     if (
-      shouldUseMock &&
-      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("stakeFromUser"))
+      shouldUseMock && keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("stakeFromUser"))
     ) {
       return mocker.stakeFromUserMock(from, amount);
     } else {
@@ -562,10 +479,7 @@ contract StakerMockable is StakerInternalStateSetters {
     uint256 amount,
     address user
   ) internal override {
-    if (
-      shouldUseMock &&
-      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_stake"))
-    ) {
+    if (shouldUseMock && keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_stake"))) {
       return mocker._stakeMock(token, amount, user);
     } else {
       return super._stake(token, amount, user);
@@ -585,10 +499,7 @@ contract StakerMockable is StakerInternalStateSetters {
     address token,
     uint256 amount
   ) internal override {
-    if (
-      shouldUseMock &&
-      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_withdraw"))
-    ) {
+    if (shouldUseMock && keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_withdraw"))) {
       return mocker._withdrawMock(marketIndex, token, amount);
     } else {
       return super._withdraw(marketIndex, token, amount);

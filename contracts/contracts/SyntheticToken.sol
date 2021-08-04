@@ -127,10 +127,6 @@ contract SyntheticToken is ISyntheticToken {
   function balanceOf(address account) public view virtual override returns (uint256) {
     return
       ERC20.balanceOf(account) +
-      ILongShort(longShort).getUsersConfirmedButNotSettledSynthBalance(
-        account,
-        marketIndex,
-        isLong
-      );
+      ILongShort(longShort).getUsersConfirmedButNotSettledSynthBalance(account, marketIndex, isLong);
   }
 }

@@ -94,6 +94,45 @@ To test deploying this code to a testnet run `truffle develop` then inside the i
 
 **Note on tests** Some of the test are written in truffle (those are the very old tests - most of them can be deprecated), the rest are written with hardhat-waffle (written with [Rescript](https://rescript-lang.org/) but with vendored javascript for convenience).
 
+# Scope
+
+The following contracts are in scope (with their line counts):
+| File | Blank lines | comments | All lines of code (excluding Blank Lines and Comments) | statements | branches | functions | Lines (excluding global variable declarations, function signatures , run over lines and event definitions) |
+| -------------------- | ----------- | -------- | ------------------------------------------------------ | ---------- | -------- | --------- | ---------------------------------------------------------------------------------------------------------- |
+| LongShort.sol | 167 | 332 | 739 | 214 | 70 | 45 | 217 |
+| Staker.sol | 153 | 272 | 552 | 184 | 64 | 41 | 188 |
+| TokenFactory.sol | 13 | 31 | 33 | 9 | 2 | 3 | 10 |
+| YieldManagerAave.sol | 40 | 79 | 97 | 42 | 10 | 8 | 43 |
+| FloatToken.sol | 9 | 30 | 30 | 10 | 2 | 3 | 10 |
+| SyntheticToken.sol | 12 | 60 | 60 | 16 | 6 | 7 | 16 |
+| TOTAL | 394 | 804 | 1511 | 475 | 154 | 107 | 484 |
+
+- counted using [cloc](https://github.com/AlDanial/cloc) and [solidity-coverage](https://github.com/sc-forks/solidity-coverage))
+
+### External calls made by our contracts:
+
+- Aave:
+
+  - Deposit into Aave lending pool
+
+  - Withdraw from Aave lending pool
+
+- Chainlink:
+
+  - ‘latestRoundData’ on Chainlink V3 aggregator contracts (via OracleManager - a very very thin wrapper around chainlink oracles - implemented this way for flexibility and evolving oracles)
+
+**Base contracts**
+
+We use OpenZeppelin where possible.
+
+**External Risks**
+
+We use ChainLink as our oracle.
+
+**Network**
+
+We intend to deploy these contracts to Polygon. Existing testnet is deployed to Mumbai at https://float.capital.
+
 ## Setup
 
 See Contracts [README.md](/contracts/README.md)

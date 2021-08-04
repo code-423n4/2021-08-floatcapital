@@ -45,10 +45,7 @@ contract FloatToken is IFloatToken, ERC20PresetMinterPauserUpgradeable {
   @param to The address for which to mint the tokens for.
   @param amount Amount of synthetic tokens to mint in wei.
   */
-  function mint(address to, uint256 amount)
-    public
-    override(IFloatToken, ERC20PresetMinterPauserUpgradeable)
-  {
+  function mint(address to, uint256 amount) public override(IFloatToken, ERC20PresetMinterPauserUpgradeable) {
     ERC20PresetMinterPauserUpgradeable.mint(to, amount);
   }
 

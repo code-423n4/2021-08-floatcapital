@@ -12,10 +12,5 @@ contract AaveIncentivesControllerMock is IAaveIncentivesController {
     address to
   ) external override returns (uint256 amountToClaim) {}
 
-  function getUserUnclaimedRewards(address user)
-    external
-    view
-    override
-    returns (uint256 usersUnclaimedRewards)
-  {}
+  function getUserUnclaimedRewards(address user) external view override returns (uint256 usersUnclaimedRewards) {}
 }

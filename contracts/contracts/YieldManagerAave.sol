@@ -128,11 +128,7 @@ contract YieldManagerAave is IYieldManager {
   /// @notice Allows the LongShort pay out a user from tokens already withdrawn from Aave
   /// @param user User to recieve the payout
   /// @param amount Amount of payment token to pay to user
-  function transferPaymentTokensToUser(address user, uint256 amount)
-    external
-    override
-    longShortOnly
-  {
+  function transferPaymentTokensToUser(address user, uint256 amount) external override longShortOnly {
     try paymentToken.transfer(user, amount) returns (bool transferSuccess) {
       if (transferSuccess) {
         // If the transfer is successful return early, otherwise try pay the user out with the amountReservedInCaseOfInsufficientAaveLiquidity
@@ -163,18 +159,12 @@ contract YieldManagerAave is IYieldManager {
     @dev This is specifically implemented to allow withdrawal of aave reward wMatic tokens accrued    
   */
   function claimAaveRewardsToTreasury() external {
-    uint256 amount = IAaveIncentivesController(aaveIncentivesController).getUserUnclaimedRewards(
-      address(this)
-    );
+    uint256 amount = IAaveIncentivesController(aaveIncentivesController).getUserUnclaimedRewards(address(this));
 
     address[] memory rewardsDepositedAssets = new address[](1);
     rewardsDepositedAssets[0] = address(paymentToken);
 
-    IAaveIncentivesController(aaveIncentivesController).claimRewards(
-      rewardsDepositedAssets,
-      amount,
-      treasury
-    );
+    IAaveIncentivesController(aaveIncentivesController).claimRewards(rewardsDepositedAssets, amount, treasury);
 
     emit ClaimAaveRewardTokenToTreasury(amount);
   }

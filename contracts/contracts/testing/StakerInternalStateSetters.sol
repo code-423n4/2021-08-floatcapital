@@ -77,15 +77,9 @@ contract StakerInternalStateSetters is Staker {
     uint256 _takerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mapping,
     uint256 _stakerTokenShiftIndex_to_accumulativeFloatIssuanceSnapshotIndex_mapping
   ) public {
-    userNextPrice_stakedSyntheticTokenShiftIndex[marketIndex][
-      user
-    ] = _userNextPrice_stakedSyntheticTokenShiftIndex;
-    userNextPrice_amountStakedSyntheticToken_toShiftAwayFrom_long[marketIndex][
-      user
-    ] = shiftAmountLong;
-    userNextPrice_amountStakedSyntheticToken_toShiftAwayFrom_short[marketIndex][
-      user
-    ] = shiftAmountShort;
+    userNextPrice_stakedSyntheticTokenShiftIndex[marketIndex][user] = _userNextPrice_stakedSyntheticTokenShiftIndex;
+    userNextPrice_amountStakedSyntheticToken_toShiftAwayFrom_long[marketIndex][user] = shiftAmountLong;
+    userNextPrice_amountStakedSyntheticToken_toShiftAwayFrom_short[marketIndex][user] = shiftAmountShort;
     batched_stakerNextTokenShiftIndex[marketIndex] = _batched_stakerNextTokenShiftIndex;
     stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mapping[
       _userNextPrice_stakedSyntheticTokenShiftIndex
@@ -105,19 +99,13 @@ contract StakerInternalStateSetters is Staker {
     uint256 _batched_stakerNextTokenShiftIndex,
     address syntheticToken
   ) public {
-    userNextPrice_stakedSyntheticTokenShiftIndex[marketIndex][
-      user
-    ] = _userNextPrice_stakedSyntheticTokenShiftIndex;
+    userNextPrice_stakedSyntheticTokenShiftIndex[marketIndex][user] = _userNextPrice_stakedSyntheticTokenShiftIndex;
     batched_stakerNextTokenShiftIndex[marketIndex] = _batched_stakerNextTokenShiftIndex;
 
     if (isShiftFromLong) {
-      userNextPrice_amountStakedSyntheticToken_toShiftAwayFrom_long[marketIndex][
-        user
-      ] = amountSyntheticTokensToShift;
+      userNextPrice_amountStakedSyntheticToken_toShiftAwayFrom_long[marketIndex][user] = amountSyntheticTokensToShift;
     } else {
-      userNextPrice_amountStakedSyntheticToken_toShiftAwayFrom_short[marketIndex][
-        user
-      ] = amountSyntheticTokensToShift;
+      userNextPrice_amountStakedSyntheticToken_toShiftAwayFrom_short[marketIndex][user] = amountSyntheticTokensToShift;
     }
 
     syntheticTokens[marketIndex][isShiftFromLong] = syntheticToken;
@@ -140,10 +128,8 @@ contract StakerInternalStateSetters is Staker {
     marketIndexOfToken[shortToken] = marketIndex;
 
     accumulativeFloatPerSyntheticTokenSnapshots[marketIndex][0].timestamp = 0; // don't test with 0
-    accumulativeFloatPerSyntheticTokenSnapshots[marketIndex][0]
-    .accumulativeFloatPerSyntheticToken_long = 1;
-    accumulativeFloatPerSyntheticTokenSnapshots[marketIndex][0]
-    .accumulativeFloatPerSyntheticToken_short = 1;
+    accumulativeFloatPerSyntheticTokenSnapshots[marketIndex][0].accumulativeFloatPerSyntheticToken_long = 1;
+    accumulativeFloatPerSyntheticTokenSnapshots[marketIndex][0].accumulativeFloatPerSyntheticToken_short = 1;
 
     syntheticTokens[marketIndex][true] = mockAddress;
     syntheticTokens[marketIndex][false] = mockAddress;
@@ -186,8 +172,7 @@ contract StakerInternalStateSetters is Staker {
     uint256 timestamp
   ) external {
     latestRewardIndex[marketIndex] = latestRewardIndexForMarket;
-    accumulativeFloatPerSyntheticTokenSnapshots[marketIndex][latestRewardIndexForMarket]
-    .timestamp = timestamp;
+    accumulativeFloatPerSyntheticTokenSnapshots[marketIndex][latestRewardIndexForMarket].timestamp = timestamp;
   }
 
   function setCalculateNewCumulativeRateParams(
@@ -204,9 +189,7 @@ contract StakerInternalStateSetters is Staker {
     .accumulativeFloatPerSyntheticToken_short = accumFloatShort;
   }
 
-  function setSetRewardObjectsParams(uint32 marketIndex, uint256 latestRewardIndexForMarket)
-    external
-  {
+  function setSetRewardObjectsParams(uint32 marketIndex, uint256 latestRewardIndexForMarket) external {
     latestRewardIndex[marketIndex] = latestRewardIndexForMarket;
   }
 
@@ -224,10 +207,7 @@ contract StakerInternalStateSetters is Staker {
     floatPercentage = _floatPercentage;
   }
 
-  function setMintAccumulatedFloatAndClaimFloatParams(
-    uint32 marketIndex,
-    uint256 latestRewardIndexForMarket
-  ) public {
+  function setMintAccumulatedFloatAndClaimFloatParams(uint32 marketIndex, uint256 latestRewardIndexForMarket) public {
     latestRewardIndex[marketIndex] = latestRewardIndexForMarket;
   }
 

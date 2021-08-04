@@ -1,8 +1,19 @@
-# Contest scope information
+# ⭐️ Float Capital ⭐️
 
-[ ⭐️ SPONSORS ADD INFO HERE ]
 
 ![float capital](/marketing-assets/float-saver.gif)
+
+
+# Float Capital contest details
+
+- $45,000 main award pot
+- $5,000 gas optimization award pot
+- Join [C4 Discord](https://discord.gg/EY5dvm3evD) to register
+- Submit findings [using the C4 form](https://code423n4.com/2021-08-float-capital-contest/submit)
+- [Read our guidelines for more details](https://code423n4.com/compete)
+- Starts 2021-08-05 00:00 UTC
+- Ends 2021-08-11 23:59 UTC
+
 
 ## Hello Wardens 👋
 
@@ -59,6 +70,9 @@ We are open to requests to create videos on specific parts of the code that you 
 
 - We use a unique method for unit testing. If you are interested in how we unit test you can watch [this youtube video](https://youtu.be/E08d87QHrOo) - the framework is a WIP - but it does its job. We use [smock](https://github.com/ethereum-optimism/optimism/tree/develop/packages/smock) for smocking and some auto-generated code to unit test internal functions (see `contracts/testing/generated/LongShortForInternalMocking.sol` and `contracts/testing/generated/LongShortMockable.sol` as an example). This is why we make almost all of our functions `virtual` - this doesn't affect the security of our contracts once deployed, but it does mean that users who inherit these contracts must take extra care. The `virtual` keyword was added to [solidity 0.6](https://docs.soliditylang.org/en/v0.6.1/060-breaking-changes.html#explicitness-requirements) to make it clear to developers what functions should or shouldn't be inherited.
 
+- FLT token issuance rate [maths]https://www.overleaf.com/read/jpyhjgrvhfkr is here in latex. This is quite a beast and we are working on a youtube video explaining the logic behind it. The premise is the side supplying more valuable liquidity (the underbalanced side) should earn more FLT by staking per dollar staked as opposed to overbalanced side liquidity being staked. This is to incentivize equal liquidity in long and short positions. The purpose of this function is that it has a horizontal offset and exponent that basically allow us 'tweak' these incentives as we understand how the market reacts to them. The horizontal offset allows us to account for an asymmetric demand and supply, where even at 50/50 liquidity, we might reward one side more due to natural tendency to favour that position. The exponent dictates how strong we want the incentive to be. 
+
+- 
 ## How Run The Tests
 
 `yarn test`
@@ -66,13 +80,3 @@ We are open to requests to create videos on specific parts of the code that you 
 To test deploying this code to a testnet run `truffle develop` then inside the integrated terminal run `migrate`.
 
 **Note on tests** Some of the test are written in truffle (those are the very old tests - most of them can be deprecated), the rest are written with hardhat-waffle (written with [Rescript](https://rescript-lang.org/) but with vendored javascript for convenience).
-
-# Float Capital contest details
-
-- $45,000 main award pot
-- $5,000 gas optimization award pot
-- Join [C4 Discord](https://discord.gg/EY5dvm3evD) to register
-- Submit findings [using the C4 form](https://code423n4.com/2021-08-float-capital-contest/submit)
-- [Read our guidelines for more details](https://code423n4.com/compete)
-- Starts 2021-08-05 00:00 UTC
-- Ends 2021-08-11 23:59 UTC

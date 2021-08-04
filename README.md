@@ -2,6 +2,18 @@
 
 ![float capital](/marketing-assets/float-saver.gif)
 
+## Hello Wardens 👋
+
+Yes! You're here! Awesome. We are super excited for your journey on unpacking and dissecting our code. We will do our best to be available around the clock for all your questions, small, big, silly or severe.
+
+For a verbose walkthrough of the system be sure to watch the [videos](https://www.youtube.com/playlist?list=PL7RT-0ybd7joiqKeGklvFxcc8dNWpPBCk) that will take you through the system in finer details. We recommend starting here and playing around with the currently deployed mumbai [testnet](https://float.capital/app/markets) version.
+
+We wish you luck on your audit.
+
+Happy hunting 🕵
+
+_Float Capital team_
+
 ## Useful links
 
 - [Testnet Application](https://float.capital/app/markets) (on Mumbai Testnet)
@@ -24,9 +36,11 @@
   _Mitigation_ - we use a reputable 3rd party to handle this difficult part for us - namely Chainlink.
 
 - **The underlying yield mechanism might undergo breaking changes or updates**
+
   _Mitigation_ - we use a 'yield manager' per market so this can evolve and develop over time.
 
 - **The oracle interface may change over time**
+
   _Mitigation_ - we use a 'oracle manager' per market so this can be updated when necessary.
 
 ## Other notes and thoughts

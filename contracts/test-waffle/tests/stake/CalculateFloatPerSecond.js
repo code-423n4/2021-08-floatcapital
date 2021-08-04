@@ -5,7 +5,6 @@ var Chai = require("../../bindings/chai/Chai.js");
 var LetOps = require("../../library/LetOps.js");
 var Globals = require("../../library/Globals.js");
 var Helpers = require("../../library/Helpers.js");
-var CONSTANTS = require("../../CONSTANTS.js");
 var StakerHelpers = require("./StakerHelpers.js");
 var StakerSmocked = require("../../library/smock/StakerSmocked.js");
 
@@ -27,11 +26,11 @@ function test(contracts, accounts) {
   var longPrice = match[1];
   var kVal = match[0];
   describe("calculateFloatPerSecond", (function () {
-          var calculateFloatPerSecondPerPaymentTokenLocked = function (underBalancedSideValue, exponent, equilibriumOffsetMarket, totalLocked, requiredBitShifting) {
+          var calculateFloatPerSecondPerPaymentTokenLocked = function (underBalancedSideValue, exponent, equilibriumOffsetMarketScaled, totalLocked, requiredBitShifting, multiplier) {
             var overflowProtectionDivision = Globals.pow(Globals.twoBn, requiredBitShifting);
-            var numerator = Globals.pow(Globals.div(Globals.sub(underBalancedSideValue, equilibriumOffsetMarket), Globals.div(overflowProtectionDivision, Globals.twoBn)), exponent);
-            var denominator = Globals.div(Globals.pow(Globals.div(totalLocked, overflowProtectionDivision), exponent), Globals.tenToThe18);
-            var overBalancedSideRate = Globals.div(Globals.div(numerator, denominator), Globals.twoBn);
+            var numerator = Globals.pow(Globals.div(Globals.add(underBalancedSideValue, Globals.mul(equilibriumOffsetMarketScaled, multiplier)), Globals.div(overflowProtectionDivision, Globals.twoBn)), exponent);
+            var denominator = Globals.pow(Globals.div(totalLocked, overflowProtectionDivision), exponent);
+            var overBalancedSideRate = Globals.div(Globals.div(Globals.mul(numerator, Globals.tenToThe18), denominator), Globals.twoBn);
             var underBalancedSideRate = Globals.sub(Globals.tenToThe18, overBalancedSideRate);
             Chai.expectTrue(Globals.bnGte(underBalancedSideRate, overBalancedSideRate));
             return [
@@ -42,44 +41,107 @@ function test(contracts, accounts) {
           var balanceIncentiveCurve_exponent = {
             contents: undefined
           };
+          var safeExponentBitShifting = {
+            contents: undefined
+          };
           beforeEach(function () {
                 return LetOps.Await.let_(StakerHelpers.deployAndSetupStakerToUnitTest("_calculateFloatPerSecond", contracts, accounts), (function (param) {
-                              return LetOps.Await.let_(contracts.contents.staker.balanceIncentiveCurve_exponent(1), (function (balanceIncentiveCurve_exponentFetched) {
+                              return LetOps.AwaitThen.let_(contracts.contents.staker.balanceIncentiveCurve_exponent(1), (function (balanceIncentiveCurve_exponentFetched) {
                                             balanceIncentiveCurve_exponent.contents = balanceIncentiveCurve_exponentFetched;
-                                            return StakerSmocked.InternalMock.mock_getKValueToReturn(kVal);
+                                            return LetOps.Await.let_(contracts.contents.staker.safeExponentBitShifting(), (function (safeExponentBitShiftingFetched) {
+                                                          safeExponentBitShifting.contents = safeExponentBitShiftingFetched;
+                                                          return StakerSmocked.InternalMock.mock_getKValueToReturn(kVal);
+                                                        }));
                                           }));
                             }));
               });
           var testHelper = function (longPrice, shortPrice, longValue, shortValue) {
             var totalLocked = Globals.add(longValue, shortValue);
-            var requiredBitShifting = Globals.bnFromInt(52);
-            return LetOps.Await.let_(contracts.contents.staker._calculateFloatPerSecondExposed(1, longPrice, shortPrice, longValue, shortValue), (function (result) {
-                          var longFloatPerSecond = result.longFloatPerSecond;
-                          var shortFloatPerSecond = result.shortFloatPerSecond;
-                          if (Globals.bnGte(longValue, shortValue)) {
-                            var match = calculateFloatPerSecondPerPaymentTokenLocked(shortValue, balanceIncentiveCurve_exponent.contents, CONSTANTS.zeroBn, totalLocked, requiredBitShifting);
-                            var longRateScaled = Globals.div(Globals.mul(Globals.mul(match[0], kVal), longPrice), Globals.tenToThe18);
-                            var shortRateScaled = Globals.div(Globals.mul(Globals.mul(match[1], kVal), shortPrice), Globals.tenToThe18);
-                            Chai.bnEqual(undefined, longFloatPerSecond, longRateScaled);
-                            return Chai.bnEqual(undefined, shortFloatPerSecond, shortRateScaled);
-                          }
-                          var match$1 = calculateFloatPerSecondPerPaymentTokenLocked(longValue, balanceIncentiveCurve_exponent.contents, CONSTANTS.zeroBn, totalLocked, requiredBitShifting);
-                          var longRateScaled$1 = Globals.div(Globals.mul(Globals.mul(match$1[1], kVal), longPrice), Globals.tenToThe18);
-                          var shortRateScaled$1 = Globals.div(Globals.mul(Globals.mul(match$1[0], kVal), shortPrice), Globals.tenToThe18);
-                          Chai.bnEqual(undefined, longFloatPerSecond, longRateScaled$1);
-                          return Chai.bnEqual(undefined, shortFloatPerSecond, shortRateScaled$1);
+            return LetOps.AwaitThen.let_(contracts.contents.staker.balanceIncentiveCurve_equilibriumOffset(1), (function (balanceIncentiveCurve_equilibriumOffset) {
+                          var equilibriumOffsetMarketScaled = Globals.div(Globals.div(Globals.mul(balanceIncentiveCurve_equilibriumOffset, totalLocked), Globals.twoBn), Globals.tenToThe18);
+                          return LetOps.Await.let_(contracts.contents.staker._calculateFloatPerSecondExposed(1, longPrice, shortPrice, longValue, shortValue), (function (result) {
+                                        var longFloatPerSecond = result.longFloatPerSecond;
+                                        var shortFloatPerSecond = result.shortFloatPerSecond;
+                                        var longRateScaled;
+                                        var shortRateScaled;
+                                        if (Globals.bnGte(longValue, Globals.sub(shortValue, equilibriumOffsetMarketScaled))) {
+                                          if (Globals.bnGte(equilibriumOffsetMarketScaled, shortValue)) {
+                                            shortRateScaled = Globals.mul(Globals.mul(Globals.tenToThe18, kVal), longPrice);
+                                            longRateScaled = Globals.zeroBn;
+                                          } else {
+                                            var match = calculateFloatPerSecondPerPaymentTokenLocked(shortValue, balanceIncentiveCurve_exponent.contents, equilibriumOffsetMarketScaled, totalLocked, safeExponentBitShifting.contents, Globals.bnFromInt(-1));
+                                            longRateScaled = Globals.div(Globals.mul(Globals.mul(match[0], kVal), longPrice), Globals.tenToThe18);
+                                            shortRateScaled = Globals.div(Globals.mul(Globals.mul(match[1], kVal), shortPrice), Globals.tenToThe18);
+                                          }
+                                        } else if (Globals.bnGte(Globals.mul(equilibriumOffsetMarketScaled, Globals.bnFromInt(-1)), longValue)) {
+                                          shortRateScaled = Globals.zeroBn;
+                                          longRateScaled = Globals.mul(Globals.mul(Globals.tenToThe18, kVal), longPrice);
+                                        } else {
+                                          var match$1 = calculateFloatPerSecondPerPaymentTokenLocked(longValue, balanceIncentiveCurve_exponent.contents, equilibriumOffsetMarketScaled, totalLocked, safeExponentBitShifting.contents, Globals.oneBn);
+                                          longRateScaled = Globals.div(Globals.mul(Globals.mul(match$1[1], kVal), longPrice), Globals.tenToThe18);
+                                          shortRateScaled = Globals.div(Globals.mul(Globals.mul(match$1[0], kVal), shortPrice), Globals.tenToThe18);
+                                        }
+                                        Chai.bnEqual(undefined, longFloatPerSecond, longRateScaled);
+                                        return Chai.bnEqual(undefined, shortFloatPerSecond, shortRateScaled);
+                                      }));
                         }));
           };
-          describe("returns correct longFloatPerSecond and shortFloatPerSecond for each market side and calls getKValue correctly", (function () {
-                  it("longValue > shortValue", (function () {
-                          return LetOps.Await.let_(testHelper(longPrice, shortPrice, Globals.add(randomValueLocked1, randomValueLocked2), randomValueLocked2), (function (param) {
-                                        
-                                      }));
+          describe("returns correct longFloatPerSecond and shortFloatPerSecond for each market side", (function () {
+                  describe("without offset", (function () {
+                          Globals.before_once$p(function (param) {
+                                return contracts.contents.staker.setEquilibriumOffset(1, Globals.zeroBn);
+                              });
+                          it("longValue > shortValue", (function () {
+                                  return LetOps.Await.let_(testHelper(longPrice, shortPrice, Globals.add(randomValueLocked1, randomValueLocked2), randomValueLocked2), (function (param) {
+                                                
+                                              }));
+                                }));
+                          it("longValue < shortValue", (function () {
+                                  return LetOps.Await.let_(testHelper(longPrice, shortPrice, randomValueLocked1, Globals.add(randomValueLocked1, randomValueLocked2)), (function (param) {
+                                                
+                                              }));
+                                }));
+                          
                         }));
-                  it("longValue < shortValue", (function () {
-                          return LetOps.Await.let_(testHelper(longPrice, shortPrice, randomValueLocked1, Globals.add(randomValueLocked1, randomValueLocked2)), (function (param) {
-                                        
-                                      }));
+                  describe("with negative offset", (function () {
+                          Globals.before_once$p(function (param) {
+                                return contracts.contents.staker.setEquilibriumOffset(1, Globals.div(Globals.mul(Globals.bnFromInt(-1), Globals.tenToThe18), Globals.twoBn));
+                              });
+                          it("longValue < shortValue", (function () {
+                                  var longValue = Globals.mul(Globals.bnFromInt(25), Globals.tenToThe18);
+                                  var shortValue = Globals.mul(Globals.bnFromInt(75), Globals.tenToThe18);
+                                  return LetOps.Await.let_(testHelper(longPrice, shortPrice, longValue, shortValue), (function (param) {
+                                                
+                                              }));
+                                }));
+                          it("longValue > shortValue", (function () {
+                                  var shortValue = Globals.mul(Globals.bnFromInt(25), Globals.tenToThe18);
+                                  var longValue = Globals.mul(Globals.bnFromInt(75), Globals.tenToThe18);
+                                  return LetOps.Await.let_(testHelper(longPrice, shortPrice, longValue, shortValue), (function (param) {
+                                                
+                                              }));
+                                }));
+                          
+                        }));
+                  describe("with positive offset", (function () {
+                          Globals.before_once$p(function (param) {
+                                return contracts.contents.staker.setEquilibriumOffset(1, Globals.div(Globals.tenToThe18, Globals.twoBn));
+                              });
+                          it("longValue < shortValue", (function () {
+                                  var longValue = Globals.mul(Globals.bnFromInt(10), Globals.tenToThe18);
+                                  var shortValue = Globals.mul(Globals.bnFromInt(90), Globals.tenToThe18);
+                                  return LetOps.Await.let_(testHelper(longPrice, shortPrice, longValue, shortValue), (function (param) {
+                                                
+                                              }));
+                                }));
+                          it("longValue > shortValue", (function () {
+                                  var shortValue = Globals.mul(Globals.bnFromInt(10), Globals.tenToThe18);
+                                  var longValue = Globals.mul(Globals.bnFromInt(90), Globals.tenToThe18);
+                                  return LetOps.Await.let_(testHelper(longPrice, shortPrice, longValue, shortValue), (function (param) {
+                                                
+                                              }));
+                                }));
+                          
                         }));
                   
                 }));
@@ -91,9 +153,6 @@ function test(contracts, accounts) {
                                             marketIndex: 1
                                           });
                               }));
-                }));
-          it("reverts for empty markets", (function () {
-                  return Chai.expectRevertNoReason(contracts.contents.staker._calculateFloatPerSecondExposed(1, CONSTANTS.zeroBn, CONSTANTS.zeroBn, CONSTANTS.zeroBn, CONSTANTS.zeroBn));
                 }));
           
         }));

@@ -14,14 +14,14 @@ contract Staker is IStaker, Initializable {
     ║          VARIABLES          ║
     ╚═════════════════════════════╝*/
 
-  // Fixed-precision constants
+  /* ══════ Fixed-precision constants ══════ */
   uint256 public constant FLOAT_ISSUANCE_FIXED_DECIMAL = 1e42;
   // 2^52 ~= 4.5e15
   // With an exponent of 5, the largest total liquidity possible in a market (to avoid integer overflow on exponentiation) is ~10^31 or 10 Trillion (10^13)
   // NOTE: this also means if the total market value is less than 2^52 there will be a division by zero error
   uint256 public constant safeExponentBitShifting = 52;
 
-  // Global state
+  /* ══════ Global state ══════ */
   address public admin;
   address public floatCapital;
   address public floatTreasury;
@@ -30,7 +30,7 @@ contract Staker is IStaker, Initializable {
   address public longShort;
   address public floatToken;
 
-  // Market specific
+  /* ══════ Market specific ══════ */
   mapping(uint32 => uint256) public marketLaunchIncentive_period; // seconds
   mapping(uint32 => uint256) public marketLaunchIncentive_multipliers; // e18 scale
   mapping(uint32 => uint256) public marketUnstakeFee_e18;
@@ -41,7 +41,7 @@ contract Staker is IStaker, Initializable {
 
   mapping(address => uint32) public marketIndexOfToken;
 
-  // Reward specific
+  /* ══════ Reward specific ══════ */
   mapping(uint32 => uint256) public latestRewardIndex;
   mapping(uint32 => mapping(uint256 => AccumulativeIssuancePerStakedSynthSnapshot))
     public accumulativeFloatPerSyntheticTokenSnapshots;
@@ -51,11 +51,11 @@ contract Staker is IStaker, Initializable {
     uint256 accumulativeFloatPerSyntheticToken_short;
   }
 
-  // User specific
+  /* ══════ User specific ══════ */
   mapping(uint32 => mapping(address => uint256)) public userIndexOfLastClaimedReward;
   mapping(address => mapping(address => uint256)) public userAmountStaked;
 
-  // Token shift management
+  /* ══════ Token shift management specific ══════ */
   mapping(uint32 => uint256) public batched_stakerNextTokenShiftIndex;
   /**
   @notice Used to link a token shift to a staker state
@@ -195,9 +195,9 @@ contract Staker is IStaker, Initializable {
     emit StakerV1(_admin, _floatTreasury, _floatCapital, _floatToken, _floatPercentage);
   }
 
-  /*╔═════════════════════════════╗
-    ║       MULTI-SIG ADMIN       ║
-    ╚═════════════════════════════╝*/
+  /*╔═══════════════════╗
+    ║       ADMIN       ║
+    ╚═══════════════════╝*/
 
   /** 
   @notice Changes admin for the contract
@@ -390,14 +390,18 @@ contract Staker is IStaker, Initializable {
   @return period The period for which the k factor applies for in seconds.
   @return multiplier The multiplier on Float generation in this period.
   */
-  function _getMarketLaunchIncentiveParameters(uint32 marketIndex) internal view virtual returns (uint256, uint256) {
-    uint256 period = marketLaunchIncentive_period[marketIndex];
-    uint256 multiplier = marketLaunchIncentive_multipliers[marketIndex];
+  function _getMarketLaunchIncentiveParameters(uint32 marketIndex)
+    internal
+    view
+    virtual
+    returns (uint256 period, uint256 multiplier)
+  {
+    period = marketLaunchIncentive_period[marketIndex];
+    multiplier = marketLaunchIncentive_multipliers[marketIndex];
+
     if (multiplier < 1e18) {
       multiplier = 1e18; // multiplier of 1 by default
     }
-
-    return (period, multiplier);
   }
 
   /** 
@@ -425,12 +429,20 @@ contract Staker is IStaker, Initializable {
   }
 
   /*
-   * Computes the current 'r' value, i.e. the number of float tokens a user
-   * earns per second for every longshort token they've staked. The returned
-   * value has a fixed decimal scale of 1e42 (!!!) for numerical stability.
-   * The return values are float per second per synthetic token (hence the
-   * requirement to multiply by price)
-   *  -- here is the graph of the curve used: https://www.desmos.com/calculator/vg7jlmn4mn
+  @notice Computes the number of float tokens a user earns per second for
+  every long/short synthetic token they've staked. The returned value has
+  a fixed decimal scale of 1e42 (!!!) for numerical stability. The return
+  values are float per second per synthetic token (hence the requirement
+  to multiply by price)
+  @dev to see below math in latex form see TODO add link
+  to interact with the equations see https://www.desmos.com/calculator/optkaxyihr
+  @param marketIndex The market referred to.
+  @param longPrice Price of the synthetic long token in units of payment token
+  @param shortPrice Price of the synthetic short token in units of payment token
+  @param longValue Amount of payment token in the long side of the market
+  @param shortValue Amount of payment token in the short side of the market
+  @return longFloatPerSecond Float token per second per long synthetic token
+  @return shortFloatPerSecond Float token per second per short synthetic token
    */
   function _calculateFloatPerSecond(
     uint32 marketIndex,
@@ -439,9 +451,6 @@ contract Staker is IStaker, Initializable {
     uint256 longValue,
     uint256 shortValue
   ) internal view virtual returns (uint256 longFloatPerSecond, uint256 shortFloatPerSecond) {
-    // Markets cannot be or become empty (since they are seeded with non-withdrawable capital)
-    assert(longValue != 0 && shortValue != 0);
-
     // A float issuance multiplier that starts high and decreases linearly
     // over time to a value of 1. This incentivises users to stake early.
     uint256 k = _getKValue(marketIndex);
@@ -451,7 +460,9 @@ contract Staker is IStaker, Initializable {
     // we need to scale this number by the totalLocked so that the offset remains consistent accross market size
 
     int256 equilibriumOffsetMarketScaled = (balanceIncentiveCurve_equilibriumOffset[marketIndex] *
-      int256(totalLocked)) / 1e18;
+      int256(totalLocked)) / 2e18;
+
+    uint256 denominator = ((totalLocked >> safeExponentBitShifting)**balanceIncentiveCurve_exponent[marketIndex]);
 
     // Float is scaled by the percentage of the total market value held in
     // the opposite position. This incentivises users to stake on the
@@ -465,8 +476,6 @@ contract Staker is IStaker, Initializable {
 
       uint256 numerator = (uint256(int256(shortValue) - equilibriumOffsetMarketScaled) >>
         (safeExponentBitShifting - 1))**balanceIncentiveCurve_exponent[marketIndex];
-
-      uint256 denominator = ((totalLocked >> safeExponentBitShifting)**balanceIncentiveCurve_exponent[marketIndex]);
 
       // NOTE: `x * 5e17` == `(x * 10e18) / 2`
       uint256 longRewardUnscaled = (numerator * 5e17) / denominator;
@@ -482,8 +491,6 @@ contract Staker is IStaker, Initializable {
 
       uint256 numerator = (uint256(int256(longValue) + equilibriumOffsetMarketScaled) >>
         (safeExponentBitShifting - 1))**balanceIncentiveCurve_exponent[marketIndex];
-
-      uint256 denominator = ((totalLocked >> safeExponentBitShifting)**balanceIncentiveCurve_exponent[marketIndex]);
 
       // NOTE: `x * 5e17` == `(x * 10e18) / 2`
       uint256 shortRewardUnscaled = (numerator * 5e17) / denominator;
@@ -551,6 +558,11 @@ contract Staker is IStaker, Initializable {
 
   /**
   @notice Creates a new accumulativeIssuancePerStakedSynthSnapshot for the given token and updates indexes.
+  @dev this code can be gas optimized - if timeDelta since last update is zero 
+       (which is the case if there is an existing cccumulativeIssuancePerStakeStakedSynthSnapshot in the same block before a LongShort market update)
+       then it could keep the same latestRewardIndex and just update the values in it.
+
+       However, correctness over optimisation in these edge cases, so create a new snapshot and increment the `latestRewardIndex`
   @param shortValue The value locked in the short side of the market.
   @param longValue The value locked in the long side of the market.
   @param shortPrice The price of the short token as defined in LongShort.sol
@@ -607,25 +619,28 @@ contract Staker is IStaker, Initializable {
     uint256 shortPrice,
     uint256 longValue,
     uint256 shortValue,
-    uint256 stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted // This value should be ALWAYS be zero if no shift occured
+    uint256 stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted, // This value should be ALWAYS be zero if no shift occured
+    bool forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp
   ) external override onlyLongShort {
-    // Only add a new accumulativeIssuancePerStakedSynthSnapshot if some time has passed.
-
-    // the `stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted` value will be 0 if there is no staker related action in an executed batch
-    if (stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted > 0) {
-      stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mapping[
-        batched_stakerNextTokenShiftIndex[marketIndex]
-      ] = stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted;
-      stakerTokenShiftIndex_to_accumulativeFloatIssuanceSnapshotIndex_mapping[
-        batched_stakerNextTokenShiftIndex[marketIndex]
-      ] = latestRewardIndex[marketIndex] + 1;
-      batched_stakerNextTokenShiftIndex[marketIndex] += 1;
-
-      emit SyntheticTokensShifted();
-    }
-
     // Time delta is fetched twice in below code, can pass through? Which is less gas?
-    if (_calculateTimeDeltaFromLastAccumulativeIssuancePerStakedSynthSnapshot(marketIndex) > 0) {
+    // Only add a new accumulativeIssuancePerStakedSynthSnapshot if some time has passed OR if there is a forced update (even if it is on the same block)
+    if (
+      _calculateTimeDeltaFromLastAccumulativeIssuancePerStakedSynthSnapshot(marketIndex) > 0 ||
+      forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp
+    ) {
+      // the `stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted` value will be 0 if there is no staker related action in an executed batch
+      if (stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted > 0) {
+        stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mapping[
+          batched_stakerNextTokenShiftIndex[marketIndex]
+        ] = stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted;
+        stakerTokenShiftIndex_to_accumulativeFloatIssuanceSnapshotIndex_mapping[
+          batched_stakerNextTokenShiftIndex[marketIndex]
+        ] = latestRewardIndex[marketIndex] + 1;
+        batched_stakerNextTokenShiftIndex[marketIndex] += 1;
+
+        emit SyntheticTokensShifted();
+      }
+
       _setCurrentAccumulativeIssuancePerStakeStakedSynthSnapshot(
         marketIndex,
         longPrice,

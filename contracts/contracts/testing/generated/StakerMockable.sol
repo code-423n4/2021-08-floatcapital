@@ -181,11 +181,20 @@ contract StakerMockable is StakerInternalStateSetters {
     }
   }
 
-  function _getMarketLaunchIncentiveParametersExposed(uint32 marketIndex) external view returns (uint256, uint256) {
+  function _getMarketLaunchIncentiveParametersExposed(uint32 marketIndex)
+    external
+    view
+    returns (uint256 period, uint256 multiplier)
+  {
     return super._getMarketLaunchIncentiveParameters(marketIndex);
   }
 
-  function _getMarketLaunchIncentiveParameters(uint32 marketIndex) internal view override returns (uint256, uint256) {
+  function _getMarketLaunchIncentiveParameters(uint32 marketIndex)
+    internal
+    view
+    override
+    returns (uint256 period, uint256 multiplier)
+  {
     if (
       shouldUseMock &&
       keccak256(abi.encodePacked(functionToNotMock)) !=

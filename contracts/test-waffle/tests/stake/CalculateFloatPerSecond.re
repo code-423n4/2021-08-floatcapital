@@ -33,30 +33,33 @@ let test =
         (
           ~underBalancedSideValue,
           ~exponent,
-          ~equilibriumOffsetMarket,
+          ~equilibriumOffsetMarketScaled,
           ~totalLocked,
           ~requiredBitShifting,
+          ~multiplier,
         ) => {
       let overflowProtectionDivision = twoBn->pow(requiredBitShifting);
 
       let numerator =
         underBalancedSideValue
-        ->sub(equilibriumOffsetMarket)
+        ->add(equilibriumOffsetMarketScaled->mul(multiplier))
         ->div(overflowProtectionDivision->div(twoBn))
         ->pow(exponent);
-      let denominator =
-        totalLocked
-        ->div(overflowProtectionDivision)
-        ->pow(exponent)
-        ->div(tenToThe18);
 
-      let overBalancedSideRate = numerator->div(denominator)->div(twoBn);
+      let denominator =
+        totalLocked->div(overflowProtectionDivision)->pow(exponent);
+
+      let overBalancedSideRate =
+        numerator->mul(tenToThe18)->div(denominator)->div(twoBn);
+
       let underBalancedSideRate = tenToThe18->sub(overBalancedSideRate);
+
       Chai.expectTrue(underBalancedSideRate->bnGte(overBalancedSideRate));
       (overBalancedSideRate, underBalancedSideRate);
     };
 
     let balanceIncentiveCurve_exponent = ref(None->Obj.magic);
+    let safeExponentBitShifting = ref(None->Obj.magic);
 
     before_each(() => {
       let%Await _ =
@@ -65,9 +68,13 @@ let test =
           ~contracts,
           ~accounts,
         );
-      let%Await balanceIncentiveCurve_exponentFetched =
+      let%AwaitThen balanceIncentiveCurve_exponentFetched =
         contracts^.staker->Staker.balanceIncentiveCurve_exponent(marketIndex);
       balanceIncentiveCurve_exponent := balanceIncentiveCurve_exponentFetched;
+
+      let%Await safeExponentBitShiftingFetched =
+        contracts.contents.staker->Staker.safeExponentBitShifting;
+      safeExponentBitShifting := safeExponentBitShiftingFetched;
 
       StakerSmocked.InternalMock.mock_getKValueToReturn(kVal);
     });
@@ -75,10 +82,18 @@ let test =
     let testHelper = (~longPrice, ~shortPrice, ~longValue, ~shortValue) => {
       let totalLocked = longValue->add(shortValue);
 
-      let requiredBitShifting = bnFromInt(52);
+      let%AwaitThen balanceIncentiveCurve_equilibriumOffset =
+        contracts.contents.staker
+        ->Staker.balanceIncentiveCurve_equilibriumOffset(marketIndex);
+
+      let equilibriumOffsetMarketScaled =
+        balanceIncentiveCurve_equilibriumOffset
+        ->mul(totalLocked)
+        ->div(twoBn)
+        ->div(tenToThe18);
 
       let%Await result =
-        contracts^.staker
+        contracts.contents.staker
         ->Staker.Exposed._calculateFloatPerSecondExposed(
             ~marketIndex,
             ~longPrice,
@@ -89,63 +104,139 @@ let test =
 
       let longFloatPerSecond: Ethers.BigNumber.t = result.longFloatPerSecond;
       let shortFloatPerSecond: Ethers.BigNumber.t = result.shortFloatPerSecond;
-      if (longValue->bnGte(shortValue)) {
-        let (longRate, shortRate) =
-          calculateFloatPerSecondPerPaymentTokenLocked(
-            ~underBalancedSideValue=shortValue,
-            ~exponent=balanceIncentiveCurve_exponent^,
-            ~equilibriumOffsetMarket=CONSTANTS.zeroBn,
-            ~totalLocked,
-            ~requiredBitShifting,
-          );
 
-        let longRateScaled =
-          longRate->mul(kVal)->mul(longPrice)->div(tenToThe18);
-        let shortRateScaled =
-          shortRate->mul(kVal)->mul(shortPrice)->div(tenToThe18);
-        longFloatPerSecond->Chai.bnEqual(longRateScaled);
-        shortFloatPerSecond->Chai.bnEqual(shortRateScaled);
+      let longRateScaled = ref(None->Obj.magic);
+      let shortRateScaled = ref(None->Obj.magic);
+
+      if (longValue->bnGte(shortValue->sub(equilibriumOffsetMarketScaled))) {
+        if (equilibriumOffsetMarketScaled->bnGte(shortValue)) {
+          shortRateScaled := tenToThe18->mul(kVal)->mul(longPrice);
+          longRateScaled := zeroBn;
+        } else {
+          let (longRate, shortRate) =
+            calculateFloatPerSecondPerPaymentTokenLocked(
+              ~underBalancedSideValue=shortValue,
+              ~exponent=balanceIncentiveCurve_exponent^,
+              ~equilibriumOffsetMarketScaled,
+              ~totalLocked,
+              ~requiredBitShifting=safeExponentBitShifting^,
+              ~multiplier=bnFromInt(-1),
+            );
+
+          longRateScaled :=
+            longRate->mul(kVal)->mul(longPrice)->div(tenToThe18);
+          shortRateScaled :=
+            shortRate->mul(kVal)->mul(shortPrice)->div(tenToThe18);
+        };
+      } else if (equilibriumOffsetMarketScaled
+                 ->mul(bnFromInt(-1))
+                 ->bnGte(longValue)) {
+        shortRateScaled := zeroBn;
+        longRateScaled := tenToThe18->mul(kVal)->mul(longPrice);
       } else {
         let (shortRate, longRate) =
           calculateFloatPerSecondPerPaymentTokenLocked(
             ~underBalancedSideValue=longValue,
             ~exponent=balanceIncentiveCurve_exponent^,
-            ~equilibriumOffsetMarket=CONSTANTS.zeroBn,
+            ~equilibriumOffsetMarketScaled,
             ~totalLocked,
-            ~requiredBitShifting,
+            ~requiredBitShifting=safeExponentBitShifting^,
+            ~multiplier=oneBn,
           );
 
-        let longRateScaled =
+        longRateScaled :=
           longRate->mul(kVal)->mul(longPrice)->div(tenToThe18);
-        let shortRateScaled =
+        shortRateScaled :=
           shortRate->mul(kVal)->mul(shortPrice)->div(tenToThe18);
-        longFloatPerSecond->Chai.bnEqual(longRateScaled);
-        shortFloatPerSecond->Chai.bnEqual(shortRateScaled);
       };
+
+      longFloatPerSecond->Chai.bnEqual(longRateScaled^);
+      shortFloatPerSecond->Chai.bnEqual(shortRateScaled^);
     };
 
     describe(
-      "returns correct longFloatPerSecond and shortFloatPerSecond for each market side and calls getKValue correctly",
+      "returns correct longFloatPerSecond and shortFloatPerSecond for each market side",
       () => {
-        it("longValue > shortValue", () => {
-          let%Await _ =
-            testHelper(
-              ~longValue=randomValueLocked1->add(randomValueLocked2),
-              ~shortValue=randomValueLocked2,
-              ~longPrice,
-              ~shortPrice,
-            );
-          ();
+        describe("without offset", () => {
+          before_once'(() => {
+            contracts.contents.staker
+            ->Staker.Exposed.setEquilibriumOffset(
+                ~marketIndex,
+                ~balanceIncentiveCurve_equilibriumOffset=zeroBn,
+              )
+          });
+          it("longValue > shortValue", () => {
+            let%Await _ =
+              testHelper(
+                ~longValue=randomValueLocked1->add(randomValueLocked2),
+                ~shortValue=randomValueLocked2,
+                ~longPrice,
+                ~shortPrice,
+              );
+            ();
+          });
+          it("longValue < shortValue", () => {
+            let%Await _ =
+              testHelper(
+                ~longValue=randomValueLocked1,
+                ~shortValue=randomValueLocked1->add(randomValueLocked2),
+                ~longPrice,
+                ~shortPrice,
+              );
+            ();
+          });
         });
-        it("longValue < shortValue", () => {
-          let%Await _ =
-            testHelper(
-              ~longValue=randomValueLocked1,
-              ~shortValue=randomValueLocked1->add(randomValueLocked2),
-              ~longPrice,
-              ~shortPrice,
-            );
-          ();
+        describe("with negative offset", () => {
+          before_once'(() => {
+            contracts.contents.staker
+            ->Staker.Exposed.setEquilibriumOffset(
+                ~marketIndex,
+                ~balanceIncentiveCurve_equilibriumOffset=
+                  bnFromInt(-1)->mul(tenToThe18)->div(twoBn),
+              )
+          });
+          it("longValue < shortValue", () => {
+            let longValue = bnFromInt(25)->mul(tenToThe18);
+            let shortValue = bnFromInt(75)->mul(tenToThe18);
+
+            let%Await _ =
+              testHelper(~longValue, ~shortValue, ~longPrice, ~shortPrice);
+            ();
+          });
+          it("longValue > shortValue", () => {
+            let shortValue = bnFromInt(25)->mul(tenToThe18);
+            let longValue = bnFromInt(75)->mul(tenToThe18);
+
+            let%Await _ =
+              testHelper(~longValue, ~shortValue, ~longPrice, ~shortPrice);
+            ();
+          });
+        });
+        describe("with positive offset", () => {
+          before_once'(() => {
+            contracts.contents.staker
+            ->Staker.Exposed.setEquilibriumOffset(
+                ~marketIndex,
+                ~balanceIncentiveCurve_equilibriumOffset=
+                  tenToThe18->div(twoBn),
+              )
+          });
+          it("longValue < shortValue", () => {
+            let longValue = bnFromInt(10)->mul(tenToThe18);
+            let shortValue = bnFromInt(90)->mul(tenToThe18);
+
+            let%Await _ =
+              testHelper(~longValue, ~shortValue, ~longPrice, ~shortPrice);
+            ();
+          });
+          it("longValue > shortValue", () => {
+            let shortValue = bnFromInt(10)->mul(tenToThe18);
+            let longValue = bnFromInt(90)->mul(tenToThe18);
+
+            let%Await _ =
+              testHelper(~longValue, ~shortValue, ~longPrice, ~shortPrice);
+            ();
+          });
         });
       },
     );
@@ -165,20 +256,6 @@ let test =
       let call =
         StakerSmocked.InternalMock._getKValueCalls()->Array.getUnsafe(0);
       call->Chai.recordEqualFlat({marketIndex: marketIndex});
-    });
-    it("reverts for empty markets", () => {
-      Chai.expectRevertNoReason(
-        ~transaction=
-          contracts^.staker
-          ->Staker.Exposed._calculateFloatPerSecondExposed(
-              ~marketIndex,
-              ~longPrice=CONSTANTS.zeroBn,
-              ~shortPrice=CONSTANTS.zeroBn,
-              ~longValue=CONSTANTS.zeroBn,
-              ~shortValue=CONSTANTS.zeroBn,
-            )
-          ->Obj.magic,
-      )
     });
   });
 };

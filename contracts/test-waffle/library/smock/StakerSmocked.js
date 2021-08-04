@@ -401,7 +401,8 @@ function pushUpdatedMarketPricesToUpdateFloatIssuanceCalculationsCalls(_r) {
                         shortPrice: param[2],
                         longValue: param[3],
                         shortValue: param[4],
-                        stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted: param[5]
+                        stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted: param[5],
+                        forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp: param[6]
                       };
               }));
 }

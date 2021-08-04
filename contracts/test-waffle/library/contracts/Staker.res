@@ -162,7 +162,7 @@ accumulativeFloatPerSyntheticToken_short: Ethers.BigNumber.t,
 
   @send
   external pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations: (
-    t,~marketIndex: int,~longPrice: Ethers.BigNumber.t,~shortPrice: Ethers.BigNumber.t,~longValue: Ethers.BigNumber.t,~shortValue: Ethers.BigNumber.t,~stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted: Ethers.BigNumber.t,
+    t,~marketIndex: int,~longPrice: Ethers.BigNumber.t,~shortPrice: Ethers.BigNumber.t,~longValue: Ethers.BigNumber.t,~shortValue: Ethers.BigNumber.t,~stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted: Ethers.BigNumber.t,~forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp: bool,
   ) => JsPromise.t<transaction> = "pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations"
 
   type safeExponentBitShiftingReturn = Ethers.BigNumber.t
@@ -324,8 +324,8 @@ shortCumulativeRates: Ethers.BigNumber.t,
   ) => JsPromise.t<_getKValueExposedReturn> = "_getKValueExposed"
 
   type _getMarketLaunchIncentiveParametersExposedReturn = {
-param0: Ethers.BigNumber.t,
-param1: Ethers.BigNumber.t,
+period: Ethers.BigNumber.t,
+multiplier: Ethers.BigNumber.t,
     }
   @send
   external _getMarketLaunchIncentiveParametersExposed: (
@@ -534,7 +534,7 @@ accumulativeFloatPerSyntheticToken_short: Ethers.BigNumber.t,
 
   @send
   external pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations: (
-    t,~marketIndex: int,~longPrice: Ethers.BigNumber.t,~shortPrice: Ethers.BigNumber.t,~longValue: Ethers.BigNumber.t,~shortValue: Ethers.BigNumber.t,~stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted: Ethers.BigNumber.t,
+    t,~marketIndex: int,~longPrice: Ethers.BigNumber.t,~shortPrice: Ethers.BigNumber.t,~longValue: Ethers.BigNumber.t,~shortValue: Ethers.BigNumber.t,~stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted: Ethers.BigNumber.t,~forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp: bool,
   ) => JsPromise.t<transaction> = "pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations"
 
   type safeExponentBitShiftingReturn = Ethers.BigNumber.t
@@ -567,6 +567,11 @@ accumulativeFloatPerSyntheticToken_short: Ethers.BigNumber.t,
   external setCalculateTimeDeltaParams: (
     t,~marketIndex: int,~latestRewardIndexForMarket: Ethers.BigNumber.t,~timestamp: Ethers.BigNumber.t,
   ) => JsPromise.t<transaction> = "setCalculateTimeDeltaParams"
+
+  @send
+  external setEquilibriumOffset: (
+    t,~marketIndex: int,~balanceIncentiveCurve_equilibriumOffset: Ethers.BigNumber.t,
+  ) => JsPromise.t<transaction> = "setEquilibriumOffset"
 
   @send
   external setFloatRewardCalcParams: (

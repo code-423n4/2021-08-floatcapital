@@ -693,8 +693,7 @@ contract LongShort is ILongShort, Initializable {
           marketSideValueInPaymentToken[marketIndex][true],
           marketSideValueInPaymentToken[marketIndex][false],
           // This variable could allow users to do any next price actions in the future (not just synthetic side shifts)
-          userNextPrice_currentUpdateIndex[marketIndex][staker],
-          true
+          userNextPrice_currentUpdateIndex[marketIndex][staker]
         );
       } else {
         IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(
@@ -703,8 +702,7 @@ contract LongShort is ILongShort, Initializable {
           syntheticTokenPrice_inPaymentTokens_short,
           marketSideValueInPaymentToken[marketIndex][true],
           marketSideValueInPaymentToken[marketIndex][false],
-          0,
-          assetPriceHasChanged
+          0
         );
       }
 

@@ -1,3 +1,5 @@
+const blockchainNodeHost = process.env.BLOCKCHAIN_NODE_HOST || "localhost";
+
 module.exports = {
   networks: {
     development: {
@@ -7,7 +9,7 @@ module.exports = {
       gasPrice: 4000000000, // 40 gwei
       timeoutBlocks: 50000,
       networkCheckTimeout: 1000000,
-    }
+    },
   },
   mocha: {
     reporter: "eth-gas-reporter",
@@ -27,5 +29,5 @@ module.exports = {
         evmVersion: "istanbul",
       },
     },
-  }
+  },
 };

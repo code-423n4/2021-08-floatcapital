@@ -89,6 +89,7 @@ We only check the return boolean (success) for erc20 methods on the payment toke
 
 ## How to run the tests
 
+`cd contracts`
 `yarn test`
 
 To test deploying this code to a testnet run `truffle develop` then inside the integrated terminal run `migrate`.
@@ -133,3 +134,7 @@ We use ChainLink as our oracle.
 **Network**
 
 We intend to deploy these contracts to Polygon. Existing testnet is deployed to Mumbai at https://float.capital.
+
+## Setup
+
+See Contracts [README.md](/contracts/README.md)

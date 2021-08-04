@@ -1,8 +1,19 @@
-# Contest scope information
+# ⭐️ Float Capital ⭐️
 
-[ ⭐️ SPONSORS ADD INFO HERE ]
 
 ![float capital](/marketing-assets/float-saver.gif)
+
+
+# Float Capital contest details
+
+- $45,000 main award pot
+- $5,000 gas optimization award pot
+- Join [C4 Discord](https://discord.gg/EY5dvm3evD) to register
+- Submit findings [using the C4 form](https://code423n4.com/2021-08-float-capital-contest/submit)
+- [Read our guidelines for more details](https://code423n4.com/compete)
+- Starts 2021-08-05 00:00 UTC
+- Ends 2021-08-11 23:59 UTC
+
 
 ## Hello Wardens 👋
 
@@ -69,13 +80,3 @@ We are open to requests to create videos on specific parts of the code that you 
 To test deploying this code to a testnet run `truffle develop` then inside the integrated terminal run `migrate`.
 
 **Note on tests** Some of the test are written in truffle (those are the very old tests - most of them can be deprecated), the rest are written with hardhat-waffle (written with [Rescript](https://rescript-lang.org/) but with vendored javascript for convenience).
-
-# Float Capital contest details
-
-- $45,000 main award pot
-- $5,000 gas optimization award pot
-- Join [C4 Discord](https://discord.gg/EY5dvm3evD) to register
-- Submit findings [using the C4 form](https://code423n4.com/2021-08-float-capital-contest/submit)
-- [Read our guidelines for more details](https://code423n4.com/compete)
-- Starts 2021-08-05 00:00 UTC
-- Ends 2021-08-11 23:59 UTC

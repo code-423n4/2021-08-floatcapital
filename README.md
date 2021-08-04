@@ -63,6 +63,14 @@ The following contracts are in scope (with their line counts):
 
 If you have any questions about the scope, just shoot us a message!
 
+## Protocol summary
+
+Put simply, Float is the easiest and safest way for users to mint synthetic assets. Users do not need to worry about over-collateralization, or suddenly getting liquidated.
+
+In its most basic form, the Float protocol creates a 'peer-to-peer' exposure market where long positions on one synthetic asset, are offset by short positions on that same synthetic asset (synth). For example, Imagine Alice has $100 000 of short exposure to a synth, while Bob had $100 000 of long exposure to this synth. Given this, a 1% decrease in the underlying asset price would mean that Alice now has $101 000 of value while bob has $99 000 of value.
+
+We refer you to the [documentation](https://docs.float.capital/) for finer details.
+
 ## Video walk-throughs of smart-contracts 📼
 
 If you are a visual learner, you may prefer to watch our video walk through series. This is a super comprehensive resource for understanding the protocol. We give a high level overview before diving in to the code. Only thing left is to go catch those 🐛
@@ -71,19 +79,31 @@ If you are a visual learner, you may prefer to watch our video walk through seri
 
 We are open to requests to create videos on specific parts of the code that you feel you need more clarity on.
 
-## Protocol overview
-
-Put simply, Float is the easiest and safest way for users to mint synthetic assets. Users do not need to worry about over-collateralization, or suddenly getting liquidated.
-
-In its most basic form, the Float protocol creates a 'peer-to-peer' exposure market where long positions on one synthetic asset, are offset by short positions on that same synthetic asset (synth).
-
-For example, Imagine Alice has $100 000 of short exposure to a synth, while Bob had $100 000 of long exposure to this synth. Given this, a 1% decrease in the underlying asset price would mean that Alice now has $101 000 of value while bob has $99 000 of value.
-
-We refer you to the [documentation](https://docs.float.capital/) for finer details.
-
-## Contracts
+## Smart contract summary
 
 #### LongShort.sol
+
+The biggest contract where most of the good stuff happens! This is the best place to start. Here a user can mint a position and redeem their position.
+
+#### Staker.sol
+
+The second biggest contract, another important one! Users can stake their synthetic assets to earn FLT tokens! This contract manages all of this logic.
+
+#### TokenFactory.sol
+
+A simple contract to create a pair new ERC20 tokens, one ERC20 token representing the long position, the other representing the short position. Everytime a new synthetic asset is created, the token factory will deploy the requisite pair of ERC20 tokens.
+
+#### YieldManagerAave.sol
+
+All underlying deposits into the system used to mint a position, are automatically sent to the yield manager. The yield manager lends funds out to aave, and helps us keep track of how much yield we have earned.
+
+#### FloatToken.sol
+
+This is the reward token, FLT, that we mint and give users, based on them locking up their synthetic assets in the staker.
+
+#### SyntheticToken.sol
+
+This is the modified ERC20 token that the token factory is deploying.
 
 ## Known trade-offs in the current design 🎚️
 

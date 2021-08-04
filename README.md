@@ -1,18 +1,22 @@
-# ⭐️ Float Capital ⭐️
+# Float Capital 🌊
+
+_"Float like a butterfly, stake like bee"_ - Team float
 
 ![float capital](/marketing-assets/float-saver.gif)
 
-[float.capital](https://float.capital) • [@float_capital](https://twitter.com/float_capital) • [discord](https://discord.gg/BUzh5aVpUy) • [documentation](https://docs.float.capital/)
+# Useful links ⭐️
+
+🌊 [float.capital](https://float.capital) • [@float_capital](https://twitter.com/float_capital) • [discord](https://discord.gg/BUzh5aVpUy) • [documentation](https://docs.float.capital/) • [Youtube videos](https://www.youtube.com/playlist?list=PL7RT-0ybd7joiqKeGklvFxcc8dNWpPBCk)• [Testnet Application](https://float.capital/app/markets) (on Mumbai Testnet) 📚
 
 # Float Capital contest details
 
-- $45,000 main award pot
-- $5,000 gas optimization award pot
+- $45,000 main award pot 💰💰💰
+- $5,000 gas optimization award pot 💰
 - Join [C4 Discord](https://discord.gg/EY5dvm3evD) to register
 - Submit findings [using the C4 form](https://code423n4.com/2021-08-float-capital-contest/submit)
-- [Read our guidelines for more details](https://code423n4.com/compete)
-- Starts 2021-08-05 00:00 UTC
-- Ends 2021-08-11 23:59 UTC
+- [Read our guidelines for more details](https://code423n4.com/compete) 🤓
+- Starts 2021-08-05 00:00 UTC 🚨
+- Ends 2021-08-11 23:59 UTC 🚨
 
 ## Hello Wardens 👋
 
@@ -26,20 +30,62 @@ Happy hunting 🕵
 
 _Float Capital team_
 
-## Useful links
+## Contact us ☎️
 
-- [Testnet Application](https://float.capital/app/markets) (on Mumbai Testnet)
-- [Docs](https://docs.float.capital/)
-- [Discord](https://discord.gg/6yXy45Yhj9)
-- [Twitter](https://twitter.com/float_capital)
+Discord handles and timezones incoming:
 
-## Video walk-throughs of smart-contracts
+- @jonjon#2270 (GMT+1)
+- @Jason |float.capital & wildcards#3836 (GMT+2)
+- @! Denham | float.capital#5167 (GMT+2)
+- @Paul | float.capital#8113 (GMT+2)
+- @stento#9884 (GMT+3)
+- @MJ Young#3116 (GMT+2)
+- @Woo Sung | float.capital#7210 (GMT+9)
 
-- [Youtube playlist](https://www.youtube.com/playlist?list=PL7RT-0ybd7joiqKeGklvFxcc8dNWpPBCk)
+Timezones don't mean much for us nocturnal solidity wizards so feel free to ping us absolutely whenever.
+
+Happy to arrange video calls if you want to disscuss something more deeply.
+
+# Contest Scope
+
+The following contracts are in scope (with their line counts):
+| File | Blank lines | comments | All lines of code (excluding Blank Lines and Comments) | statements | branches | functions | Lines (excluding global variable declarations, function signatures , run over lines and event definitions) |
+| -------------------- | ----------- | -------- | ------------------------------------------------------ | ---------- | -------- | --------- | ---------------------------------------------------------------------------------------------------------- |
+| LongShort.sol | 167 | 332 | 739 | 214 | 70 | 45 | 217 |
+| Staker.sol | 153 | 272 | 552 | 184 | 64 | 41 | 188 |
+| TokenFactory.sol | 13 | 31 | 33 | 9 | 2 | 3 | 10 |
+| YieldManagerAave.sol | 40 | 79 | 97 | 42 | 10 | 8 | 43 |
+| FloatToken.sol | 9 | 30 | 30 | 10 | 2 | 3 | 10 |
+| SyntheticToken.sol | 12 | 60 | 60 | 16 | 6 | 7 | 16 |
+| TOTAL | 394 | 804 | 1511 | 475 | 154 | 107 | 484 |
+
+- counted using [cloc](https://github.com/AlDanial/cloc) and [solidity-coverage](https://github.com/sc-forks/solidity-coverage)
+
+If you have any questions about the scope, just shoot us a message!
+
+## Video walk-throughs of smart-contracts 📼
+
+If you are a visual learner, you may prefer to watch our video walk through series. This is a super comprehensive resource for understanding the protocol. We give a high level overview before diving in to the code. Only thing left is to go catch those 🐛
+
+- [Very professional youtube videos](https://www.youtube.com/playlist?list=PL7RT-0ybd7joiqKeGklvFxcc8dNWpPBCk)
 
 We are open to requests to create videos on specific parts of the code that you feel you need more clarity on.
 
-## Known trade-offs in the current design
+## Protocol overview
+
+Put simply, Float is the easiest and safest way for users to mint synthetic assets. Users do not need to worry about over-collateralization, or suddenly getting liquidated.
+
+In its most basic form, the Float protocol creates a 'peer-to-peer' exposure market where long positions on one synthetic asset, are offset by short positions on that same synthetic asset (synth).
+
+For example, Imagine Alice has $100 000 of short exposure to a synth, while Bob had $100 000 of long exposure to this synth. Given this, a 1% decrease in the underlying asset price would mean that Alice now has $101 000 of value while bob has $99 000 of value.
+
+We refer you to the [documentation](https://docs.float.capital/) for finer details.
+
+## Contracts
+
+#### LongShort.sol
+
+## Known trade-offs in the current design 🎚️
 
 - **System does not allow price updates that are greater than 100%.**
 
@@ -57,7 +103,7 @@ We are open to requests to create videos on specific parts of the code that you 
 
   _Mitigation_ - we use a 'oracle manager' per market so this can be updated when necessary.
 
-## Preemptive questions and answers
+## Preemptive questions and answers ❓
 
 - **Why do a lot of the functions have `virtual` modifiers?**
 
@@ -71,7 +117,7 @@ We only check the return boolean (success) for erc20 methods on the payment toke
 
 [Enum's within mappings break hardhat stack traces](https://github.com/nomiclabs/hardhat/issues/1564)
 
-## Other notes and thoughts
+## Other notes and thoughts 💭
 
 - Currently our synthetic tokens are inheriting from the open zeppelin `ERC20PresetMinterPauser` contract, but the pause functionality has been stripped out by our use of `_beforeTokenTransfer`. We have left the contracts inheriting from the MinterPauser because there is some chance we will add pause functionality before launch - we just want to make sure we don't expose the system to unnecessary external risk - results from various audits will guide this decision. If we don't launch a pausable synth token we will inherit from a more basic ERC20 implementation.
 
@@ -86,30 +132,6 @@ We only check the return boolean (success) for erc20 methods on the payment toke
 - The contracts are intended to be used with DAI and potentially other ERC20 payment tokens with 18 decimal places.
 
 - Internal governance will be managed by a Gnosis Safe with 3 signers of 5 owners affording diversified security and sufficient recoverability.
-
-## How to run the tests
-
-`cd contracts`
-`yarn test`
-
-To test deploying this code to a testnet run `truffle develop` then inside the integrated terminal run `migrate`.
-
-**Note on tests** Some of the test are written in truffle (those are the very old tests - most of them can be deprecated), the rest are written with hardhat-waffle (written with [Rescript](https://rescript-lang.org/) but with vendored javascript for convenience).
-
-# Scope
-
-The following contracts are in scope (with their line counts):
-| File | Blank lines | comments | All lines of code (excluding Blank Lines and Comments) | statements | branches | functions | Lines (excluding global variable declarations, function signatures , run over lines and event definitions) |
-| -------------------- | ----------- | -------- | ------------------------------------------------------ | ---------- | -------- | --------- | ---------------------------------------------------------------------------------------------------------- |
-| LongShort.sol | 167 | 332 | 739 | 214 | 70 | 45 | 217 |
-| Staker.sol | 153 | 272 | 552 | 184 | 64 | 41 | 188 |
-| TokenFactory.sol | 13 | 31 | 33 | 9 | 2 | 3 | 10 |
-| YieldManagerAave.sol | 40 | 79 | 97 | 42 | 10 | 8 | 43 |
-| FloatToken.sol | 9 | 30 | 30 | 10 | 2 | 3 | 10 |
-| SyntheticToken.sol | 12 | 60 | 60 | 16 | 6 | 7 | 16 |
-| TOTAL | 394 | 804 | 1511 | 475 | 154 | 107 | 484 |
-
-- counted using [cloc](https://github.com/AlDanial/cloc) and [solidity-coverage](https://github.com/sc-forks/solidity-coverage))
 
 ### External calls made by our contracts:
 
@@ -138,3 +160,12 @@ We intend to deploy these contracts to Polygon. Existing testnet is deployed to 
 ## Setup
 
 See Contracts [README.md](/contracts/README.md)
+
+## How to run the tests
+
+`cd contracts`
+`yarn test`
+
+To test deploying this code to a testnet run `truffle develop` then inside the integrated terminal run `migrate`.
+
+**Note on tests** Some of the test are written in truffle (those are the very old tests - most of them can be deprecated), the rest are written with hardhat-waffle (written with [Rescript](https://rescript-lang.org/) but with vendored javascript for convenience).

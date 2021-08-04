@@ -151,7 +151,9 @@ We only check the return boolean (success) for erc20 methods on the payment toke
 
 - The contracts are intended to be used with DAI and potentially other ERC20 payment tokens with 18 decimal places.
 
-- Internal governance will be managed by a Gnosis Safe with 3 signers of 5 owners affording diversified security and sufficient recoverability.
+- Internal governance will be managed by a Gnosis Safe with 3 signers of 5 owners affording diversified security and sufficient recoverability. In case of blackswan events as a last resort we can upgrade contracts to block functionality.
+
+- We have very strict criteria for what is accetpable as a payment token. It MUST be base 10^18, it MUST return a `success` boolean on transfer, it MUSTN'T be pausable, it MUSTN'T take fees on transfers and due to the initial market liquidity requirement payment tokens with unreasonably high prices (eg BTC) might not be practical. We also have a total market size limit of 10 Trillion (10^13 tokens, or 10^31) so if a payment token has a price that is too low and there is chance that markets get close to that limit we will either need to update the mechanism by which we choose the `safeExponentBitShifting` (which is currently hardcoded). We are aware of this and have will ONLY use DAI for initial markets.
 
 ### External calls made by our contracts:
 
@@ -184,6 +186,7 @@ See Contracts [README.md](/contracts/README.md)
 ## How to run the tests
 
 `cd contracts`
+`yarn` (install all dependencies)
 `yarn test`
 
 To test deploying this code to a testnet run `truffle develop` then inside the integrated terminal run `migrate`.

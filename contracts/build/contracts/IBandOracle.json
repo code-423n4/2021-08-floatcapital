@@ -1,0 +1,924 @@
+{
+  "contractName": "IBandOracle",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_base",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_quote",
+          "type": "string"
+        }
+      ],
+      "name": "getReferenceData",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "rate",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "lastUpdatedBase",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "lastUpdatedQuote",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct IBandOracle.ReferenceData",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string[]",
+          "name": "_bases",
+          "type": "string[]"
+        },
+        {
+          "internalType": "string[]",
+          "name": "_quotes",
+          "type": "string[]"
+        }
+      ],
+      "name": "getReferenceDataBulk",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "rate",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "lastUpdatedBase",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "lastUpdatedQuote",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct IBandOracle.ReferenceData[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.3+commit.8d00100c\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_base\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_quote\",\"type\":\"string\"}],\"name\":\"getReferenceData\",\"outputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"rate\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"lastUpdatedBase\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"lastUpdatedQuote\",\"type\":\"uint256\"}],\"internalType\":\"struct IBandOracle.ReferenceData\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string[]\",\"name\":\"_bases\",\"type\":\"string[]\"},{\"internalType\":\"string[]\",\"name\":\"_quotes\",\"type\":\"string[]\"}],\"name\":\"getReferenceDataBulk\",\"outputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"rate\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"lastUpdatedBase\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"lastUpdatedQuote\",\"type\":\"uint256\"}],\"internalType\":\"struct IBandOracle.ReferenceData[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/jasoons/Documents/code/monorepo/contracts/contracts/interfaces/IBandOracle.sol\":\"IBandOracle\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/jasoons/Documents/code/monorepo/contracts/contracts/interfaces/IBandOracle.sol\":{\"keccak256\":\"0x82d3384c2a6034f142c4d028204929ebb3037a45533c470f8fbb5a099844f838\",\"license\":\"BUSL-1.1\",\"urls\":[\"bzz-raw://4767fe6506c72f12d75c87f6b3aebf78e62afcd67a44ea7af6f773c59f131629\",\"dweb:/ipfs/QmbkDrxFu3bBWHxrKmS7phd7janXtLjCFR8sy1yy545zbX\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: BUSL-1.1\n\npragma solidity 0.8.3;\npragma abicoder v2;\n\n/* Standard Band oracle interface. Prices are queried by pair, i.e. what is\n * the price of the given base currency in units of the quote currency?\n *    see:\n *  https://kovan.etherscan.io/address/0xDA7a001b254CD22e46d3eAB04d937489c93174C3#code\n *  https://docs.matic.network/docs/develop/oracles/bandstandarddataset/\n */\ninterface IBandOracle {\n  struct ReferenceData {\n    uint256 rate; // exchange rate for base/quote in 1e18 scale\n    uint256 lastUpdatedBase; // secs after epoch, last time base updated\n    uint256 lastUpdatedQuote; // secs after epoch, last time quote updated\n  }\n\n  /*\n   *Returns price data for given base/quote pair. Reverts if not available.\n   */\n  function getReferenceData(string memory _base, string memory _quote)\n    external\n    view\n    returns (ReferenceData memory);\n\n  /*\n   * Batch version of getReferenceData(...).\n   */\n  function getReferenceDataBulk(string[] memory _bases, string[] memory _quotes)\n    external\n    view\n    returns (ReferenceData[] memory);\n}\n",
+  "sourcePath": "/home/jasoons/Documents/code/monorepo/contracts/contracts/interfaces/IBandOracle.sol",
+  "ast": {
+    "absolutePath": "/home/jasoons/Documents/code/monorepo/contracts/contracts/interfaces/IBandOracle.sol",
+    "exportedSymbols": {
+      "IBandOracle": [
+        5830
+      ]
+    },
+    "id": 5831,
+    "license": "BUSL-1.1",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5798,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".3"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "38:22:9"
+      },
+      {
+        "id": 5799,
+        "literals": [
+          "abicoder",
+          "v2"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "61:19:9"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 5830,
+        "linearizedBaseContracts": [
+          5830
+        ],
+        "name": "IBandOracle",
+        "nameLocation": "415:11:9",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "IBandOracle.ReferenceData",
+            "id": 5806,
+            "members": [
+              {
+                "constant": false,
+                "id": 5801,
+                "mutability": "mutable",
+                "name": "rate",
+                "nameLocation": "466:4:9",
+                "nodeType": "VariableDeclaration",
+                "scope": 5806,
+                "src": "458:12:9",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 5800,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "458:7:9",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 5803,
+                "mutability": "mutable",
+                "name": "lastUpdatedBase",
+                "nameLocation": "530:15:9",
+                "nodeType": "VariableDeclaration",
+                "scope": 5806,
+                "src": "522:23:9",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 5802,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "522:7:9",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 5805,
+                "mutability": "mutable",
+                "name": "lastUpdatedQuote",
+                "nameLocation": "603:16:9",
+                "nodeType": "VariableDeclaration",
+                "scope": 5806,
+                "src": "595:24:9",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 5804,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "595:7:9",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "ReferenceData",
+            "nameLocation": "438:13:9",
+            "nodeType": "StructDefinition",
+            "scope": 5830,
+            "src": "431:238:9",
+            "visibility": "public"
+          },
+          {
+            "functionSelector": "65555bcc",
+            "id": 5816,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getReferenceData",
+            "nameLocation": "769:16:9",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5811,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5808,
+                  "mutability": "mutable",
+                  "name": "_base",
+                  "nameLocation": "800:5:9",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5816,
+                  "src": "786:19:9",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 5807,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "786:6:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5810,
+                  "mutability": "mutable",
+                  "name": "_quote",
+                  "nameLocation": "821:6:9",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5816,
+                  "src": "807:20:9",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 5809,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "807:6:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "785:43:9"
+            },
+            "returnParameters": {
+              "id": 5815,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5814,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5816,
+                  "src": "864:20:9",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_ReferenceData_$5806_memory_ptr",
+                    "typeString": "struct IBandOracle.ReferenceData"
+                  },
+                  "typeName": {
+                    "id": 5813,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 5812,
+                      "name": "ReferenceData",
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 5806,
+                      "src": "864:13:9"
+                    },
+                    "referencedDeclaration": 5806,
+                    "src": "864:13:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_ReferenceData_$5806_storage_ptr",
+                      "typeString": "struct IBandOracle.ReferenceData"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "863:22:9"
+            },
+            "scope": 5830,
+            "src": "760:126:9",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "e42a071b",
+            "id": 5829,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getReferenceDataBulk",
+            "nameLocation": "955:20:9",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5823,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5819,
+                  "mutability": "mutable",
+                  "name": "_bases",
+                  "nameLocation": "992:6:9",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5829,
+                  "src": "976:22:9",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_string_memory_ptr_$dyn_memory_ptr",
+                    "typeString": "string[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 5817,
+                      "name": "string",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "976:6:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_storage_ptr",
+                        "typeString": "string"
+                      }
+                    },
+                    "id": 5818,
+                    "nodeType": "ArrayTypeName",
+                    "src": "976:8:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_string_storage_$dyn_storage_ptr",
+                      "typeString": "string[]"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5822,
+                  "mutability": "mutable",
+                  "name": "_quotes",
+                  "nameLocation": "1016:7:9",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5829,
+                  "src": "1000:23:9",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_string_memory_ptr_$dyn_memory_ptr",
+                    "typeString": "string[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 5820,
+                      "name": "string",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "1000:6:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_storage_ptr",
+                        "typeString": "string"
+                      }
+                    },
+                    "id": 5821,
+                    "nodeType": "ArrayTypeName",
+                    "src": "1000:8:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_string_storage_$dyn_storage_ptr",
+                      "typeString": "string[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "975:49:9"
+            },
+            "returnParameters": {
+              "id": 5828,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5827,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5829,
+                  "src": "1060:22:9",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_struct$_ReferenceData_$5806_memory_ptr_$dyn_memory_ptr",
+                    "typeString": "struct IBandOracle.ReferenceData[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 5825,
+                      "nodeType": "UserDefinedTypeName",
+                      "pathNode": {
+                        "id": 5824,
+                        "name": "ReferenceData",
+                        "nodeType": "IdentifierPath",
+                        "referencedDeclaration": 5806,
+                        "src": "1060:13:9"
+                      },
+                      "referencedDeclaration": 5806,
+                      "src": "1060:13:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_ReferenceData_$5806_storage_ptr",
+                        "typeString": "struct IBandOracle.ReferenceData"
+                      }
+                    },
+                    "id": 5826,
+                    "nodeType": "ArrayTypeName",
+                    "src": "1060:15:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_struct$_ReferenceData_$5806_storage_$dyn_storage_ptr",
+                      "typeString": "struct IBandOracle.ReferenceData[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1059:24:9"
+            },
+            "scope": 5830,
+            "src": "946:138:9",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 5831,
+        "src": "405:681:9"
+      }
+    ],
+    "src": "38:1049:9"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/jasoons/Documents/code/monorepo/contracts/contracts/interfaces/IBandOracle.sol",
+    "exportedSymbols": {
+      "IBandOracle": [
+        5830
+      ]
+    },
+    "id": 5831,
+    "license": "BUSL-1.1",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5798,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".3"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "38:22:9"
+      },
+      {
+        "id": 5799,
+        "literals": [
+          "abicoder",
+          "v2"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "61:19:9"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 5830,
+        "linearizedBaseContracts": [
+          5830
+        ],
+        "name": "IBandOracle",
+        "nameLocation": "415:11:9",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "IBandOracle.ReferenceData",
+            "id": 5806,
+            "members": [
+              {
+                "constant": false,
+                "id": 5801,
+                "mutability": "mutable",
+                "name": "rate",
+                "nameLocation": "466:4:9",
+                "nodeType": "VariableDeclaration",
+                "scope": 5806,
+                "src": "458:12:9",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 5800,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "458:7:9",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 5803,
+                "mutability": "mutable",
+                "name": "lastUpdatedBase",
+                "nameLocation": "530:15:9",
+                "nodeType": "VariableDeclaration",
+                "scope": 5806,
+                "src": "522:23:9",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 5802,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "522:7:9",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 5805,
+                "mutability": "mutable",
+                "name": "lastUpdatedQuote",
+                "nameLocation": "603:16:9",
+                "nodeType": "VariableDeclaration",
+                "scope": 5806,
+                "src": "595:24:9",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 5804,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "595:7:9",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "ReferenceData",
+            "nameLocation": "438:13:9",
+            "nodeType": "StructDefinition",
+            "scope": 5830,
+            "src": "431:238:9",
+            "visibility": "public"
+          },
+          {
+            "functionSelector": "65555bcc",
+            "id": 5816,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getReferenceData",
+            "nameLocation": "769:16:9",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5811,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5808,
+                  "mutability": "mutable",
+                  "name": "_base",
+                  "nameLocation": "800:5:9",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5816,
+                  "src": "786:19:9",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 5807,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "786:6:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5810,
+                  "mutability": "mutable",
+                  "name": "_quote",
+                  "nameLocation": "821:6:9",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5816,
+                  "src": "807:20:9",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 5809,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "807:6:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "785:43:9"
+            },
+            "returnParameters": {
+              "id": 5815,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5814,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5816,
+                  "src": "864:20:9",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_ReferenceData_$5806_memory_ptr",
+                    "typeString": "struct IBandOracle.ReferenceData"
+                  },
+                  "typeName": {
+                    "id": 5813,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 5812,
+                      "name": "ReferenceData",
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 5806,
+                      "src": "864:13:9"
+                    },
+                    "referencedDeclaration": 5806,
+                    "src": "864:13:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_ReferenceData_$5806_storage_ptr",
+                      "typeString": "struct IBandOracle.ReferenceData"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "863:22:9"
+            },
+            "scope": 5830,
+            "src": "760:126:9",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "e42a071b",
+            "id": 5829,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getReferenceDataBulk",
+            "nameLocation": "955:20:9",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5823,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5819,
+                  "mutability": "mutable",
+                  "name": "_bases",
+                  "nameLocation": "992:6:9",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5829,
+                  "src": "976:22:9",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_string_memory_ptr_$dyn_memory_ptr",
+                    "typeString": "string[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 5817,
+                      "name": "string",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "976:6:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_storage_ptr",
+                        "typeString": "string"
+                      }
+                    },
+                    "id": 5818,
+                    "nodeType": "ArrayTypeName",
+                    "src": "976:8:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_string_storage_$dyn_storage_ptr",
+                      "typeString": "string[]"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5822,
+                  "mutability": "mutable",
+                  "name": "_quotes",
+                  "nameLocation": "1016:7:9",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5829,
+                  "src": "1000:23:9",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_string_memory_ptr_$dyn_memory_ptr",
+                    "typeString": "string[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 5820,
+                      "name": "string",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "1000:6:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_storage_ptr",
+                        "typeString": "string"
+                      }
+                    },
+                    "id": 5821,
+                    "nodeType": "ArrayTypeName",
+                    "src": "1000:8:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_string_storage_$dyn_storage_ptr",
+                      "typeString": "string[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "975:49:9"
+            },
+            "returnParameters": {
+              "id": 5828,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5827,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5829,
+                  "src": "1060:22:9",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_struct$_ReferenceData_$5806_memory_ptr_$dyn_memory_ptr",
+                    "typeString": "struct IBandOracle.ReferenceData[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 5825,
+                      "nodeType": "UserDefinedTypeName",
+                      "pathNode": {
+                        "id": 5824,
+                        "name": "ReferenceData",
+                        "nodeType": "IdentifierPath",
+                        "referencedDeclaration": 5806,
+                        "src": "1060:13:9"
+                      },
+                      "referencedDeclaration": 5806,
+                      "src": "1060:13:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_ReferenceData_$5806_storage_ptr",
+                        "typeString": "struct IBandOracle.ReferenceData"
+                      }
+                    },
+                    "id": 5826,
+                    "nodeType": "ArrayTypeName",
+                    "src": "1060:15:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_struct$_ReferenceData_$5806_storage_$dyn_storage_ptr",
+                      "typeString": "struct IBandOracle.ReferenceData[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1059:24:9"
+            },
+            "scope": 5830,
+            "src": "946:138:9",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 5831,
+        "src": "405:681:9"
+      }
+    ],
+    "src": "38:1049:9"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.3+commit.8d00100c.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.3.4",
+  "updatedAt": "2021-08-04T10:05:03.790Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

@@ -87,8 +87,13 @@ We only check the return boolean (success) for erc20 methods on the payment toke
 
 ## How to run the tests
 
+`cd contracts`
 `yarn test`
 
 To test deploying this code to a testnet run `truffle develop` then inside the integrated terminal run `migrate`.
 
 **Note on tests** Some of the test are written in truffle (those are the very old tests - most of them can be deprecated), the rest are written with hardhat-waffle (written with [Rescript](https://rescript-lang.org/) but with vendored javascript for convenience).
+
+## Setup
+
+See Contracts [README.md](/contracts/README.md)

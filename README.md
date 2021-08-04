@@ -2,6 +2,8 @@
 
 ![float capital](/marketing-assets/float-saver.gif)
 
+[float.capital](https://float.capital) • [@float_capital](https://twitter.com/float_capital) • [discord](https://discord.gg/BUzh5aVpUy) • [documentation](https://docs.float.capital/)
+
 # Float Capital contest details
 
 - $45,000 main award pot

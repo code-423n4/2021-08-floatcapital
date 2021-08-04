@@ -1,8 +1,10 @@
 # Float Capital
 
+![float capital](/marketing-assets/float-saver.gif)
+
 ## Useful links
 
-- [Testnet Aplication](https://float.capital/app/markets) (on Mumbai Testnet)
+- [Testnet Application](https://float.capital/app/markets) (on Mumbai Testnet)
 - [Docs](https://docs.float.capital/)
 - [Discord](https://discord.gg/6yXy45Yhj9)
 - [Twitter](https://twitter.com/float_capital)

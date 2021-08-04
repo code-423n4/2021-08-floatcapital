@@ -61,7 +61,7 @@ contract StakerForInternalMocking {
     return ();
   }
 
-  function _getMarketLaunchIncentiveParametersMock(uint32) public pure returns (uint256, uint256) {
+  function _getMarketLaunchIncentiveParametersMock(uint32) public pure returns (uint256 period, uint256 multiplier) {
     return (abi.decode("", (uint256)), abi.decode("", (uint256)));
   }
 

@@ -27,14 +27,17 @@ contract LongShort is ILongShort, Initializable {
     ║          VARIABLES          ║
     ╚═════════════════════════════╝*/
 
-  // Fixed-precision constants
+  /* ══════ Fixed-precision constants ══════ */
   /// @notice this is the address that permanently locked initial liquidity for markets is held by.
   /// These tokens will never move so market can never have zero liquidity on a side.
   /// @dev f10a7 spells float in hex - for fun - important part is that the private key for this address in not known.
   address public constant PERMANENT_INITIAL_LIQUIDITY_HOLDER = 0xf10A7_F10A7_f10A7_F10a7_F10A7_f10a7_F10A7_f10a7;
+
+  /// @dev an empty allocation of storage for use in future upgrades - inspiration from OZ:
+  ///      https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/10f0f1a95b1b0fd5520351886bae7a03490f1056/contracts/token/ERC20/ERC20Upgradeable.sol#L361
   uint256[45] private __constantsGap;
 
-  // Global state
+  /* ══════ Global state ══════ */
   address public admin;
   address public treasury;
   uint32 public latestMarket;
@@ -43,7 +46,7 @@ contract LongShort is ILongShort, Initializable {
   address public tokenFactory;
   uint256[45] private __globalStateGap;
 
-  // Market specific
+  /* ══════ Market specific ══════ */
   mapping(uint32 => bool) public marketExists;
   mapping(uint32 => uint256) public assetPrice;
   mapping(uint32 => uint256) public marketUpdateIndex;
@@ -52,7 +55,7 @@ contract LongShort is ILongShort, Initializable {
   mapping(uint32 => address) public oracleManagers;
   mapping(uint32 => uint256) public marketTreasurySplitGradient_e18;
 
-  // Market + position (long/short) specific
+  /* ══════ Market + position (long/short) specific ══════ */
   mapping(uint32 => mapping(bool => address)) public syntheticTokens;
   mapping(uint32 => mapping(bool => uint256)) public marketSideValueInPaymentToken;
 
@@ -63,7 +66,7 @@ contract LongShort is ILongShort, Initializable {
   mapping(uint32 => mapping(bool => uint256)) public batched_amountSyntheticToken_redeem;
   mapping(uint32 => mapping(bool => uint256)) public batched_amountSyntheticToken_toShiftAwayFrom_marketSide;
 
-  // User specific
+  /* ══════ User specific ══════ */
   mapping(uint32 => mapping(address => uint256)) public userNextPrice_currentUpdateIndex;
 
   mapping(uint32 => mapping(bool => mapping(address => uint256))) public userNextPrice_paymentToken_depositAmount;
@@ -196,9 +199,9 @@ contract LongShort is ILongShort, Initializable {
     emit LongShortV1(_admin, _treasury, _tokenFactory, _staker);
   }
 
-  /*╔═════════════════════════════╗
-    ║       MULTI-SIG ADMIN       ║
-    ╚═════════════════════════════╝*/
+  /*╔═══════════════════╗
+    ║       ADMIN       ║
+    ╚═══════════════════╝*/
 
   /// @notice Changes the admin address for this contract.
   /// @dev Can only be called by the current admin.
@@ -226,7 +229,7 @@ contract LongShort is ILongShort, Initializable {
     emit OracleUpdated(marketIndex, previousOracleManager, _newOracleManager);
   }
 
-  /// @notice
+  /// @notice changes the gradient of the line for determining the yield split between market and treasury.
   function changeMarketTreasurySplitGradient(uint32 marketIndex, uint256 _marketTreasurySplitGradient_e18)
     external
     adminOnly
@@ -547,7 +550,7 @@ contract LongShort is ILongShort, Initializable {
    for a market should be allocated to treasury.
    @dev For gas considerations also returns whether the long side is imbalanced.
    @dev For gas considerations totalValueLockedInMarket is passed as a parameter as the function
-  calling this function has pre calculated the value
+   calling this function has pre calculated the value
    @param longValue The current total payment token value of the long side of the market.
    @param shortValue The current total payment token value of the short side of the market.
    @param totalValueLockedInMarket Total payment token value of both sides of the market.
@@ -690,7 +693,8 @@ contract LongShort is ILongShort, Initializable {
           marketSideValueInPaymentToken[marketIndex][true],
           marketSideValueInPaymentToken[marketIndex][false],
           // This variable could allow users to do any next price actions in the future (not just synthetic side shifts)
-          userNextPrice_currentUpdateIndex[marketIndex][staker]
+          userNextPrice_currentUpdateIndex[marketIndex][staker],
+          true
         );
       } else {
         IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(
@@ -699,7 +703,8 @@ contract LongShort is ILongShort, Initializable {
           syntheticTokenPrice_inPaymentTokens_short,
           marketSideValueInPaymentToken[marketIndex][true],
           marketSideValueInPaymentToken[marketIndex][false],
-          0
+          0,
+          assetPriceHasChanged
         );
       }
 

@@ -511,6 +511,7 @@ type pushUpdatedMarketPricesToUpdateFloatIssuanceCalculationsCall = {
   longValue: Ethers.BigNumber.t,
   shortValue: Ethers.BigNumber.t,
   stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted: Ethers.BigNumber.t,
+  forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp: bool,
 }
 
 let pushUpdatedMarketPricesToUpdateFloatIssuanceCalculationsCalls: t => array<
@@ -524,6 +525,7 @@ let pushUpdatedMarketPricesToUpdateFloatIssuanceCalculationsCalls: t => array<
     longValue,
     shortValue,
     stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted,
+    forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp,
   )) => {
     {
       marketIndex: marketIndex,
@@ -532,6 +534,7 @@ let pushUpdatedMarketPricesToUpdateFloatIssuanceCalculationsCalls: t => array<
       longValue: longValue,
       shortValue: shortValue,
       stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted: stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted,
+      forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp: forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp,
     }
   })
 }

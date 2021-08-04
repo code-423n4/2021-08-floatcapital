@@ -145,7 +145,8 @@ function testUnit(contracts, accounts) {
                                                             shortPrice: oldShortPrice,
                                                             longValue: oldLongValue,
                                                             shortValue: oldShortValue,
-                                                            stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted: stakerNextPrice_currentUpdateIndex
+                                                            stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted: stakerNextPrice_currentUpdateIndex,
+                                                            forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp: true
                                                           }]);
                                             }));
                               }));
@@ -162,7 +163,8 @@ function testUnit(contracts, accounts) {
                                                       shortPrice: oldShortPrice,
                                                       longValue: oldLongValue,
                                                       shortValue: oldShortValue,
-                                                      stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted: Globals.zeroBn
+                                                      stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted: Globals.zeroBn,
+                                                      forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp: false
                                                     }]);
                                               return assertNoUpdateStateOrNonOracleCalls(false);
                                             }));
@@ -179,7 +181,8 @@ function testUnit(contracts, accounts) {
                                                                     shortPrice: oldShortPrice,
                                                                     longValue: oldLongValue,
                                                                     shortValue: oldShortValue,
-                                                                    stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted: Globals.zeroBn
+                                                                    stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted: Globals.zeroBn,
+                                                                    forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp: true
                                                                   }]);
                                                     }));
                                       }));

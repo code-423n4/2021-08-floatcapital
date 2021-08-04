@@ -24,6 +24,7 @@ let testUnit =
         (
           ~stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted,
           ~timeDelta,
+          ~forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp,
         ) => {
       StakerSmocked.InternalMock.mock_calculateTimeDeltaFromLastAccumulativeIssuancePerStakedSynthSnapshotToReturn(
         timeDelta,
@@ -37,6 +38,7 @@ let testUnit =
           ~longValue,
           ~shortValue,
           ~stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted,
+          ~forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp,
         );
     };
 
@@ -51,6 +53,8 @@ let testUnit =
               ~longValue,
               ~shortValue,
               ~stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted=zeroBn,
+              ~forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp=
+                true,
             );
 
         StakerSmocked.InternalMock.onlyLongShortModifierLogicCalls()
@@ -67,6 +71,8 @@ let testUnit =
         setup(
           ~timeDelta=timeDeltaGreaterThanZero,
           ~stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted,
+          ~forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp=
+            true,
         )
       );
 
@@ -108,6 +114,8 @@ let testUnit =
             setup(
               ~timeDelta=timeDeltaGreaterThanZero,
               ~stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted,
+              ~forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp=
+                true,
             );
 
           pushUpdatedMarketPricesToUpdateFloatIssuanceCalculationsTxPromise.
@@ -169,16 +177,36 @@ let testUnit =
 
     describe("case timeDelta == 0", () => {
       it(
-        "doesn't call setCurrentAccumulativeIssuancePerStakeStakedSynthSnapshot",
+        "doesn't call setCurrentAccumulativeIssuancePerStakeStakedSynthSnapshot if there isn't a forced update",
         () => {
-        let%Await _ =
-          setup(
-            ~timeDelta=CONSTANTS.zeroBn,
-            ~stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted=zeroBn,
-          );
-        StakerSmocked.InternalMock._setCurrentAccumulativeIssuancePerStakeStakedSynthSnapshotCalls()
-        ->Chai.recordArrayDeepEqualFlat([||]);
-      })
+          let%Await _ =
+            setup(
+              ~timeDelta=CONSTANTS.zeroBn,
+              ~stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted=zeroBn,
+              ~forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp=
+                false,
+            );
+          StakerSmocked.InternalMock._setCurrentAccumulativeIssuancePerStakeStakedSynthSnapshotCalls()
+          ->Chai.recordArrayDeepEqualFlat([||]);
+        },
+      );
+
+      it(
+        "still calls setCurrentAccumulativeIssuancePerStakeStakedSynthSnapshot if there IS a forced update",
+        () => {
+          let%Await _ =
+            setup(
+              ~timeDelta=CONSTANTS.zeroBn,
+              ~stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted=zeroBn,
+              ~forceAccumulativeIssuancePerStakeStakedSynthSnapshotEvenIfExistingWithSameTimestamp=
+                true,
+            );
+          StakerSmocked.InternalMock._setCurrentAccumulativeIssuancePerStakeStakedSynthSnapshotCalls()
+          ->Chai.recordArrayDeepEqualFlat([|
+              {marketIndex, longPrice, shortPrice, longValue, shortValue},
+            |]);
+        },
+      );
     });
   });
 };

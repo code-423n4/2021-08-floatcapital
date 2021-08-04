@@ -260,6 +260,10 @@ contract StakerInternalStateSetters is Staker {
     userAmountStaked[token][user] = amountStaked;
   }
 
+  function setEquilibriumOffset(uint32 marketIndex, int256 _balanceIncentiveCurve_equilibriumOffset) external {
+    balanceIncentiveCurve_equilibriumOffset[marketIndex] = _balanceIncentiveCurve_equilibriumOffset;
+  }
+
   ///////////////////////////////////////////////////////
   //////////// Functions for Experimentation ////////////
   ///////////////////////////////////////////////////////

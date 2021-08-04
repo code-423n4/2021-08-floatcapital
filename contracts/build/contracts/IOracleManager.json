@@ -1,0 +1,362 @@
+{
+  "contractName": "IOracleManager",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "updatePrice",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getLatestPrice",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.3+commit.8d00100c\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getLatestPrice\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"updatePrice\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/jasoons/Documents/code/monorepo/contracts/contracts/interfaces/IOracleManager.sol\":\"IOracleManager\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/jasoons/Documents/code/monorepo/contracts/contracts/interfaces/IOracleManager.sol\":{\"keccak256\":\"0x257b71cc5a9394ba0ea022556bf1f38012046c5ca568ff0d73ce6cf95c278376\",\"license\":\"BUSL-1.1\",\"urls\":[\"bzz-raw://c575666de6b20a973f871c4562e4ab1e8589376c40f113f059a40ac3fcc4b26e\",\"dweb:/ipfs/QmSR5E5fD9f8XXHMSd5AupzbeMMmWuJrKroYjJx8UMxE2X\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: BUSL-1.1\n\npragma solidity 0.8.3;\n\n/*\n * Manages price feeds from different oracle implementations.\n */\ninterface IOracleManager {\n  function updatePrice() external returns (int256);\n\n  /*\n   *Returns the latest price from the oracle feed.\n   */\n  function getLatestPrice() external view returns (int256);\n}\n",
+  "sourcePath": "/home/jasoons/Documents/code/monorepo/contracts/contracts/interfaces/IOracleManager.sol",
+  "ast": {
+    "absolutePath": "/home/jasoons/Documents/code/monorepo/contracts/contracts/interfaces/IOracleManager.sol",
+    "exportedSymbols": {
+      "IOracleManager": [
+        5915
+      ]
+    },
+    "id": 5916,
+    "license": "BUSL-1.1",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5904,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".3"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "38:22:12"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 5915,
+        "linearizedBaseContracts": [
+          5915
+        ],
+        "name": "IOracleManager",
+        "nameLocation": "141:14:12",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "673a7e28",
+            "id": 5909,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "updatePrice",
+            "nameLocation": "169:11:12",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5905,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "180:2:12"
+            },
+            "returnParameters": {
+              "id": 5908,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5907,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5909,
+                  "src": "201:6:12",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
+                  },
+                  "typeName": {
+                    "id": 5906,
+                    "name": "int256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "201:6:12",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "200:8:12"
+            },
+            "scope": 5915,
+            "src": "160:49:12",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "8e15f473",
+            "id": 5914,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getLatestPrice",
+            "nameLocation": "284:14:12",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5910,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "298:2:12"
+            },
+            "returnParameters": {
+              "id": 5913,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5912,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5914,
+                  "src": "324:6:12",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
+                  },
+                  "typeName": {
+                    "id": 5911,
+                    "name": "int256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "324:6:12",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "323:8:12"
+            },
+            "scope": 5915,
+            "src": "275:57:12",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 5916,
+        "src": "131:203:12"
+      }
+    ],
+    "src": "38:297:12"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/jasoons/Documents/code/monorepo/contracts/contracts/interfaces/IOracleManager.sol",
+    "exportedSymbols": {
+      "IOracleManager": [
+        5915
+      ]
+    },
+    "id": 5916,
+    "license": "BUSL-1.1",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5904,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".3"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "38:22:12"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 5915,
+        "linearizedBaseContracts": [
+          5915
+        ],
+        "name": "IOracleManager",
+        "nameLocation": "141:14:12",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "673a7e28",
+            "id": 5909,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "updatePrice",
+            "nameLocation": "169:11:12",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5905,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "180:2:12"
+            },
+            "returnParameters": {
+              "id": 5908,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5907,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5909,
+                  "src": "201:6:12",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
+                  },
+                  "typeName": {
+                    "id": 5906,
+                    "name": "int256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "201:6:12",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "200:8:12"
+            },
+            "scope": 5915,
+            "src": "160:49:12",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "8e15f473",
+            "id": 5914,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getLatestPrice",
+            "nameLocation": "284:14:12",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5910,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "298:2:12"
+            },
+            "returnParameters": {
+              "id": 5913,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5912,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5914,
+                  "src": "324:6:12",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
+                  },
+                  "typeName": {
+                    "id": 5911,
+                    "name": "int256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "324:6:12",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "323:8:12"
+            },
+            "scope": 5915,
+            "src": "275:57:12",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 5916,
+        "src": "131:203:12"
+      }
+    ],
+    "src": "38:297:12"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.3+commit.8d00100c.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.3.4",
+  "updatedAt": "2021-08-04T10:05:03.791Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

@@ -1,0 +1,1 @@
+test-waffle/library/smock/OracleManagerMockSmocked.cmj : test-waffle/bindings/ethers/Ethers.cmj test-waffle/bindings/ethers/Ethers.cmi test-waffle/library/contracts/OracleManagerMock.cmj test-waffle/library/contracts/OracleManagerMock.cmi

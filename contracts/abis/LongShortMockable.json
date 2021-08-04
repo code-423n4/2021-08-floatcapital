@@ -1,0 +1,2420 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isShiftFromLong",
+        "type": "bool"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "ExecuteNextPriceMarketSideShiftSettlementUser",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isLong",
+        "type": "bool"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "ExecuteNextPriceMintSettlementUser",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isLong",
+        "type": "bool"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "ExecuteNextPriceRedeemSettlementUser",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      }
+    ],
+    "name": "ExecuteNextPriceSettlementsUser",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "admin",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "treasury",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "tokenFactory",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "staker",
+        "type": "address"
+      }
+    ],
+    "name": "LongShortV1",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "initialSeed",
+        "type": "uint256"
+      }
+    ],
+    "name": "NewMarketLaunchedAndSeeded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isLong",
+        "type": "bool"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "depositAdded",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "oracleUpdateIndex",
+        "type": "uint256"
+      }
+    ],
+    "name": "NextPriceDeposit",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isLong",
+        "type": "bool"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "synthRedeemed",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "oracleUpdateIndex",
+        "type": "uint256"
+      }
+    ],
+    "name": "NextPriceRedeem",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isShiftFromLong",
+        "type": "bool"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "synthShifted",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "oracleUpdateIndex",
+        "type": "uint256"
+      }
+    ],
+    "name": "NextPriceSyntheticPositionShift",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "oldOracleAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newOracleAddress",
+        "type": "address"
+      }
+    ],
+    "name": "OracleUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "longTokenAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "shortTokenAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "paymentToken",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "initialAssetPrice",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "symbol",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "oracleAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "yieldManagerAddress",
+        "type": "address"
+      }
+    ],
+    "name": "SyntheticMarketCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "updateIndex",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "int256",
+        "name": "underlyingAssetPrice",
+        "type": "int256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "longValue",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "shortValue",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "longPrice",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "shortPrice",
+        "type": "uint256"
+      }
+    ],
+    "name": "SystemStateUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "_marketIndex",
+        "type": "uint32"
+      }
+    ],
+    "name": "executeOutstandingNextPriceSettlementsMock",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "PERMANENT_INITIAL_LIQUIDITY_HOLDER",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "syntheticTokenPrice_inPaymentTokens_long",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "syntheticTokenPrice_inPaymentTokens_short",
+        "type": "uint256"
+      }
+    ],
+    "name": "_batchConfirmOutstandingPendingActionsExposed",
+    "outputs": [
+      {
+        "internalType": "int256",
+        "name": "long_changeInMarketValue_inPaymentToken",
+        "type": "int256"
+      },
+      {
+        "internalType": "int256",
+        "name": "short_changeInMarketValue_inPaymentToken",
+        "type": "int256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "int256",
+        "name": "newAssetPrice",
+        "type": "int256"
+      },
+      {
+        "internalType": "int256",
+        "name": "oldAssetPrice",
+        "type": "int256"
+      }
+    ],
+    "name": "_claimAndDistributeYieldThenRebalanceMarketExposed",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "longValue",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "shortValue",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "isLong",
+        "type": "bool"
+      }
+    ],
+    "name": "_executeOutstandingNextPriceMintsExposed",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "isLong",
+        "type": "bool"
+      }
+    ],
+    "name": "_executeOutstandingNextPriceRedeemsExposed",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      }
+    ],
+    "name": "_executeOutstandingNextPriceSettlementsExposed",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      }
+    ],
+    "name": "_executeOutstandingNextPriceSettlementsExposedWithEvent",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "isShiftFromLong",
+        "type": "bool"
+      }
+    ],
+    "name": "_executeOutstandingNextPriceTokenShiftsExposed",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amountSyntheticToken",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "syntheticTokenPriceInPaymentTokens",
+        "type": "uint256"
+      }
+    ],
+    "name": "_getAmountPaymentTokenExposed",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amountPaymentToken",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amountPaymentTokenBackingSynth",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "syntheticTokenPriceInPaymentTokens",
+        "type": "uint256"
+      }
+    ],
+    "name": "_getAmountSyntheticTokenExposed",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amountSyntheticToken",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amountSyntheticTokens_originSide",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "syntheticTokenPrice_originSide",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "syntheticTokenPrice_targetSide",
+        "type": "uint256"
+      }
+    ],
+    "name": "_getEquivalentAmountSyntheticTokensOnTargetSideExposed",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "equivalentAmountSyntheticTokensOnTargetSide",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "a",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "b",
+        "type": "uint256"
+      }
+    ],
+    "name": "_getMinExposed",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amountPaymentTokenBackingSynth",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountSyntheticToken",
+        "type": "uint256"
+      }
+    ],
+    "name": "_getSyntheticTokenPriceExposed",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "syntheticTokenPrice",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "longValue",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "shortValue",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalValueLockedInMarket",
+        "type": "uint256"
+      }
+    ],
+    "name": "_getYieldSplitExposed",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "isLongSideUnderbalanced",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "treasuryYieldPercent_e18",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "bool",
+        "name": "isLong",
+        "type": "bool"
+      },
+      {
+        "internalType": "int256",
+        "name": "changeInSyntheticTokensTotalSupply",
+        "type": "int256"
+      }
+    ],
+    "name": "_handleChangeInSyntheticTokensTotalSupplyExposed",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "int256",
+        "name": "totalPaymentTokenValueChangeForMarket",
+        "type": "int256"
+      }
+    ],
+    "name": "_handleTotalPaymentTokenValueChangeForMarketWithYieldManagerExposed",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "isLong",
+        "type": "bool"
+      }
+    ],
+    "name": "_mintNextPriceExposed",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokens_redeem",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "isLong",
+        "type": "bool"
+      }
+    ],
+    "name": "_redeemNextPriceExposed",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "initialMarketSeedForEachMarketSide",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      }
+    ],
+    "name": "_seedMarketInitiallyExposed",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountSyntheticTokensToShift",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "isShiftFromLong",
+        "type": "bool"
+      }
+    ],
+    "name": "_shiftPositionNextPriceExposed",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "_transferPaymentTokensFromUserToYieldManagerExposed",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      }
+    ],
+    "name": "_updateSystemStateInternalExposed",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "admin",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "adminOnlyModifierLogicExposed",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "name": "assetPrice",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      },
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "name": "batched_amountPaymentToken_deposit",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      },
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "name": "batched_amountSyntheticToken_redeem",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      },
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "name": "batched_amountSyntheticToken_toShiftAwayFrom_marketSide",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_admin",
+        "type": "address"
+      }
+    ],
+    "name": "changeAdmin",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_marketTreasurySplitGradient_e18",
+        "type": "uint256"
+      }
+    ],
+    "name": "changeMarketTreasurySplitGradient",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_treasury",
+        "type": "address"
+      }
+    ],
+    "name": "changeTreasury",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "syntheticName",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "syntheticSymbol",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "_paymentToken",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_oracleManager",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_yieldManager",
+        "type": "address"
+      }
+    ],
+    "name": "createNewSyntheticMarket",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      }
+    ],
+    "name": "executeOutstandingNextPriceSettlementsUser",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "internalType": "uint32[]",
+        "name": "marketIndexes",
+        "type": "uint32[]"
+      }
+    ],
+    "name": "executeOutstandingNextPriceSettlementsUserMulti",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountSyntheticToken_redeemOnOriginSide",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "isShiftFromLong",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "priceSnapshotIndex",
+        "type": "uint256"
+      }
+    ],
+    "name": "getAmountSyntheticTokenToMintOnTargetSide",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amountSyntheticTokensToMintOnTargetSide",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "bool",
+        "name": "isLong",
+        "type": "bool"
+      }
+    ],
+    "name": "getUsersConfirmedButNotSettledSynthBalance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "confirmedButNotSettledBalance",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_admin",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_treasury",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_tokenFactory",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_staker",
+        "type": "address"
+      }
+    ],
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "kInitialMultiplier",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "kPeriod",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "unstakeFee_e18",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "initialMarketSeedForEachMarketSide",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "balanceIncentiveCurve_exponent",
+        "type": "uint256"
+      },
+      {
+        "internalType": "int256",
+        "name": "balanceIncentiveCurve_equilibriumOffset",
+        "type": "int256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_marketTreasurySplitGradient_e18",
+        "type": "uint256"
+      }
+    ],
+    "name": "initializeMarket",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "latestMarket",
+    "outputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "name": "marketExists",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      },
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "name": "marketSideValueInPaymentToken",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "name": "marketTreasurySplitGradient_e18",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "name": "marketUpdateIndex",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "mintLongNextPrice",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "mintShortNextPrice",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "name": "oracleManagers",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "name": "paymentTokens",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokens_redeem",
+        "type": "uint256"
+      }
+    ],
+    "name": "redeemLongNextPrice",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokens_redeem",
+        "type": "uint256"
+      }
+    ],
+    "name": "redeemShortNextPrice",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      }
+    ],
+    "name": "requireMarketExistsModifierLogicExposed",
+    "outputs": [],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_marketSideValueInPaymentTokenLong",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_marketSideValueInPaymentTokenShort",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "yieldManager",
+        "type": "address"
+      }
+    ],
+    "name": "setClaimAndDistributeYieldThenRebalanceMarketGlobals",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "paymentToken",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "yieldManager",
+        "type": "address"
+      }
+    ],
+    "name": "setDepositFundsGlobals",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "isLong",
+        "type": "bool"
+      },
+      {
+        "internalType": "address",
+        "name": "syntheticToken",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_userNextPrice_syntheticToken_redeemAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_userNextPrice_currentUpdateIndex",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_syntheticToken_priceSnapshot",
+        "type": "uint256"
+      }
+    ],
+    "name": "setExecuteOutstandingNextPriceMintsGlobals",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "isLong",
+        "type": "bool"
+      },
+      {
+        "internalType": "address",
+        "name": "yieldManager",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_userNextPrice_syntheticToken_redeemAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_userNextPrice_currentUpdateIndex",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_syntheticToken_priceSnapshot",
+        "type": "uint256"
+      }
+    ],
+    "name": "setExecuteOutstandingNextPriceRedeemsGlobals",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_userNextPrice_currentUpdateIndex",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_marketUpdateIndex",
+        "type": "uint256"
+      }
+    ],
+    "name": "setExecuteOutstandingNextPriceSettlementsGlobals",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "isShiftFromLong",
+        "type": "bool"
+      },
+      {
+        "internalType": "address",
+        "name": "syntheticTokenShiftedTo",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_userNextPrice_syntheticToken_toShiftAwayFrom_marketSide",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_userNextPrice_currentUpdateIndex",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_syntheticToken_priceSnapshotShiftedFrom",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_syntheticToken_priceSnapshotShiftedTo",
+        "type": "uint256"
+      }
+    ],
+    "name": "setExecuteOutstandingNextPriceTokenShiftsGlobals",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_functionToNotMock",
+        "type": "string"
+      }
+    ],
+    "name": "setFunctionToNotMock",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "isLong",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_userNextPrice_currentUpdateIndex",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_marketUpdateIndex",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_userNextPrice_paymentToken_depositAmount_isLong",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_syntheticToken_priceSnapshot_isLong",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_syntheticToken_priceSnapshot_notIsLong",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_userNextPrice_syntheticToken_toShiftAwayFrom_marketSide_notIsLong",
+        "type": "uint256"
+      }
+    ],
+    "name": "setGetUsersConfirmedButNotSettledBalanceGlobals",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "longSyntheticToken",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "shortSyntheticToken",
+        "type": "address"
+      }
+    ],
+    "name": "setHandleChangeInSyntheticTokensTotalSupplyGlobals",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "yieldManager",
+        "type": "address"
+      }
+    ],
+    "name": "setHandleTotalValueChangeForMarketWithYieldManagerGlobals",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "bool",
+        "name": "marketIndexValue",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint32",
+        "name": "_latestMarket",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "_staker",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "longAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "shortAddress",
+        "type": "address"
+      }
+    ],
+    "name": "setInitializeMarketParams",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "yieldManager",
+        "type": "address"
+      }
+    ],
+    "name": "setLockFundsInMarketGlobals",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32[]",
+        "name": "marketIndexes",
+        "type": "uint32[]"
+      }
+    ],
+    "name": "setMarketExistsMulti",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_marketUpdateIndex",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMintNextPriceGlobals",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract LongShortForInternalMocking",
+        "name": "_mocker",
+        "type": "address"
+      }
+    ],
+    "name": "setMocker",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "batched_amountPaymentToken_depositLong",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "batched_amountPaymentToken_depositShort",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "batched_amountSyntheticToken_redeemLong",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "batched_amountSyntheticToken_redeemShort",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "batchedAmountSyntheticTokenToShiftFromLong",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "batchedAmountSyntheticTokenToShiftFromShort",
+        "type": "uint256"
+      }
+    ],
+    "name": "setPerformOustandingBatchedSettlementsGlobals",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_marketUpdateIndex",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "syntheticToken",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "isLong",
+        "type": "bool"
+      }
+    ],
+    "name": "setRedeemNextPriceGlobals",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_marketUpdateIndex",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "syntheticTokenShiftedFrom",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "isShiftFromLong",
+        "type": "bool"
+      }
+    ],
+    "name": "setShiftNextPriceGlobals",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "shouldUseMock",
+        "type": "bool"
+      }
+    ],
+    "name": "setUseexecuteOutstandingNextPriceSettlementsMock",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_latestUpdateIndexForMarket",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "syntheticTokenPrice_inPaymentTokens_long",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "syntheticTokenPrice_inPaymentTokens_short",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_assetPrice",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "longValue",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "shortValue",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "oracleManager",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_staker",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "synthLong",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "synthShort",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "stakerNextPrice_currentUpdateIndex",
+        "type": "uint256"
+      }
+    ],
+    "name": "set_updateSystemStateInternalGlobals",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountSyntheticTokensToShift",
+        "type": "uint256"
+      }
+    ],
+    "name": "shiftPositionFromLongNextPrice",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountSyntheticTokensToShift",
+        "type": "uint256"
+      }
+    ],
+    "name": "shiftPositionFromShortNextPrice",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "staker",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      },
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "syntheticToken_priceSnapshot",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      },
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "name": "syntheticTokens",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "tokenFactory",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "treasury",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "_newOracleManager",
+        "type": "address"
+      }
+    ],
+    "name": "updateMarketOracle",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "marketIndex",
+        "type": "uint32"
+      }
+    ],
+    "name": "updateSystemState",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32[]",
+        "name": "marketIndexes",
+        "type": "uint32[]"
+      }
+    ],
+    "name": "updateSystemStateMulti",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "userNextPrice_currentUpdateIndex",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      },
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      },
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "userNextPrice_paymentToken_depositAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      },
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      },
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "userNextPrice_syntheticToken_redeemAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      },
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      },
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "userNextPrice_syntheticToken_toShiftAwayFrom_marketSide",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "name": "yieldManagers",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

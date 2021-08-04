@@ -1,0 +1,84 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "AaveIncentivesControllerMock",
+  "sourceName": "contracts/mocks/AaveIncentivesControllerMock.sol",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "RewardsClaimed",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "assets",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        }
+      ],
+      "name": "claimRewards",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "amountToClaim",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "getUserUnclaimedRewards",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "usersUnclaimedRewards",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060405234801561001057600080fd5b50610173806100206000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c8063198fa81e1461003b5780633111e7b314610061575b600080fd5b61004f610049366004610095565b50600090565b60405190815260200160405180910390f35b61004f61006f3660046100b6565b6000949350505050565b80356001600160a01b038116811461009057600080fd5b919050565b6000602082840312156100a6578081fd5b6100af82610079565b9392505050565b600080600080606085870312156100cb578283fd5b843567ffffffffffffffff808211156100e2578485fd5b818701915087601f8301126100f5578485fd5b813581811115610103578586fd5b8860208260051b8501011115610117578586fd5b60209283019650945050850135915061013260408601610079565b90509295919450925056fea2646970667358221220777215eb65363862b011cf446b5562e6e37422d5e28b11eaf44af4b123c1265e64736f6c63430008030033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100365760003560e01c8063198fa81e1461003b5780633111e7b314610061575b600080fd5b61004f610049366004610095565b50600090565b60405190815260200160405180910390f35b61004f61006f3660046100b6565b6000949350505050565b80356001600160a01b038116811461009057600080fd5b919050565b6000602082840312156100a6578081fd5b6100af82610079565b9392505050565b600080600080606085870312156100cb578283fd5b843567ffffffffffffffff808211156100e2578485fd5b818701915087601f8301126100f5578485fd5b813581811115610103578586fd5b8860208260051b8501011115610117578586fd5b60209283019650945050850135915061013260408601610079565b90509295919450925056fea2646970667358221220777215eb65363862b011cf446b5562e6e37422d5e28b11eaf44af4b123c1265e64736f6c63430008030033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

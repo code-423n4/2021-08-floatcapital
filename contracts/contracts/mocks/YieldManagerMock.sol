@@ -116,11 +116,7 @@ contract YieldManagerMock is IYieldManager {
   /// @notice Allows the LongShort pay out a user from tokens already withdrawn from Aave
   /// @param user User to recieve the payout
   /// @param amount Amount of payment token to pay to user
-  function transferPaymentTokensToUser(address user, uint256 amount)
-    external
-    override
-    longShortOnly
-  {
+  function transferPaymentTokensToUser(address user, uint256 amount) external override longShortOnly {
     // Transfer tokens back to LongShort contract.
     token.transfer(user, amount);
   }

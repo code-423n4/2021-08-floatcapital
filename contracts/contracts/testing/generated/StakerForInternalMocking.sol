@@ -117,11 +117,7 @@ contract StakerForInternalMocking {
     return (abi.decode("", (uint256)));
   }
 
-  function _calculateAccumulatedFloatMock(uint32, address)
-    public
-    pure
-    returns (uint256 floatReward)
-  {
+  function _calculateAccumulatedFloatMock(uint32, address) public pure returns (uint256 floatReward) {
     return (abi.decode("", (uint256)));
   }
 

@@ -13,17 +13,11 @@ abstract contract ILongShort {
     bool isLong
   ) external view virtual returns (uint256 confirmedButNotSettledBalance);
 
-  function executeOutstandingNextPriceSettlementsUser(address user, uint32 marketIndex)
-    external
-    virtual;
+  function executeOutstandingNextPriceSettlementsUser(address user, uint32 marketIndex) external virtual;
 
-  function shiftPositionFromLongNextPrice(uint32 marketIndex, uint256 amountSyntheticTokensToShift)
-    external
-    virtual;
+  function shiftPositionFromLongNextPrice(uint32 marketIndex, uint256 amountSyntheticTokensToShift) external virtual;
 
-  function shiftPositionFromShortNextPrice(uint32 marketIndex, uint256 amountSyntheticTokensToShift)
-    external
-    virtual;
+  function shiftPositionFromShortNextPrice(uint32 marketIndex, uint256 amountSyntheticTokensToShift) external virtual;
 
   function getAmountSyntheticTokenToMintOnTargetSide(
     uint32 marketIndex,

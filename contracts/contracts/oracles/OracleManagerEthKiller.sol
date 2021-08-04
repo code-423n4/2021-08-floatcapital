@@ -76,10 +76,7 @@ contract OracleManagerEthKiller is IOracleManager {
     quoteSymbols[1] = "BUSD";
     quoteSymbols[2] = "BUSD";
 
-    IBandOracle.ReferenceData[] memory data = oracle.getReferenceDataBulk(
-      baseSymbols,
-      quoteSymbols
-    );
+    IBandOracle.ReferenceData[] memory data = oracle.getReferenceDataBulk(baseSymbols, quoteSymbols);
 
     return (data[0].rate, data[1].rate, data[2].rate);
   }
@@ -101,11 +98,7 @@ contract OracleManagerEthKiller is IOracleManager {
     return int256(indexPrice);
   }
 
-  function _calcAbsolutePercentageChange(uint256 newPrice, uint256 basePrice)
-    internal
-    pure
-    returns (int256)
-  {
+  function _calcAbsolutePercentageChange(uint256 newPrice, uint256 basePrice) internal pure returns (int256) {
     return ((int256(newPrice) - int256(basePrice)) * (1e18)) / (int256(basePrice));
   }
 

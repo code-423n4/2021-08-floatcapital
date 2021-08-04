@@ -1,1 +1,0 @@
-test-waffle/tests/longShort/AdjustMarketBasedOnNewAssetPrice.cmj : test-waffle/bindings/ethers/Ethers.cmj test-waffle/bindings/ethers/Ethers.cmi test-waffle/library/Globals.cmj test-waffle/library/Globals.cmi test-waffle/library/Helpers.cmj test-waffle/library/Helpers.cmi test-waffle/bindings/mocha/Mocha.cmj test-waffle/bindings/mocha/Mocha.cmi

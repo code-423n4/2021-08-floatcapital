@@ -38,27 +38,15 @@ contract LongShortForInternalMocking {
     return (abi.decode("", (uint256)));
   }
 
-  function _getSyntheticTokenPriceMock(uint256, uint256)
-    public
-    pure
-    returns (uint256 syntheticTokenPrice)
-  {
+  function _getSyntheticTokenPriceMock(uint256, uint256) public pure returns (uint256 syntheticTokenPrice) {
     return (abi.decode("", (uint256)));
   }
 
-  function _getAmountPaymentTokenMock(uint256, uint256)
-    public
-    pure
-    returns (uint256 amountPaymentToken)
-  {
+  function _getAmountPaymentTokenMock(uint256, uint256) public pure returns (uint256 amountPaymentToken) {
     return (abi.decode("", (uint256)));
   }
 
-  function _getAmountSyntheticTokenMock(uint256, uint256)
-    public
-    pure
-    returns (uint256 amountSyntheticToken)
-  {
+  function _getAmountSyntheticTokenMock(uint256, uint256) public pure returns (uint256 amountSyntheticToken) {
     return (abi.decode("", (uint256)));
   }
 
@@ -164,10 +152,7 @@ contract LongShortForInternalMocking {
     return ();
   }
 
-  function _handleTotalPaymentTokenValueChangeForMarketWithYieldManagerMock(uint32, int256)
-    public
-    pure
-  {
+  function _handleTotalPaymentTokenValueChangeForMarketWithYieldManagerMock(uint32, int256) public pure {
     return ();
   }
 
@@ -186,10 +171,7 @@ contract LongShortForInternalMocking {
   )
     public
     pure
-    returns (
-      int256 long_changeInMarketValue_inPaymentToken,
-      int256 short_changeInMarketValue_inPaymentToken
-    )
+    returns (int256 long_changeInMarketValue_inPaymentToken, int256 short_changeInMarketValue_inPaymentToken)
   {
     return (abi.decode("", (int256)), abi.decode("", (int256)));
   }

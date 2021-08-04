@@ -100,11 +100,7 @@ contract OracleManagerEthKillerChainlink is IOracleManager {
     return _updatePrice();
   }
 
-  function _calcAbsolutePercentageChange(int256 newPrice, int256 basePrice)
-    internal
-    pure
-    returns (int256)
-  {
+  function _calcAbsolutePercentageChange(int256 newPrice, int256 basePrice) internal pure returns (int256) {
     return ((newPrice - basePrice) * (1e18)) / (basePrice);
   }
 

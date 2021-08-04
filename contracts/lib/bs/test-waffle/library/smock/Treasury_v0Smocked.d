@@ -1,1 +1,0 @@
-test-waffle/library/smock/Treasury_v0Smocked.cmj : test-waffle/bindings/ethers/Ethers.cmj test-waffle/bindings/ethers/Ethers.cmi test-waffle/library/contracts/Treasury_v0.cmj test-waffle/library/contracts/Treasury_v0.cmi

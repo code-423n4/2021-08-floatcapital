@@ -42,6 +42,7 @@ module.exports = {
     "interfaces/aave/DataTypes.sol",
     "interfaces/aave/ILendingPool.sol",
     "interfaces/aave/ILendingPoolAddressesProvider.sol",
+    "interfaces/aave/IAaveIncentivesController.sol",
 
     "mocks/BandOracleMock.sol",
     "mocks/Dai.sol",
@@ -51,6 +52,7 @@ module.exports = {
     "mocks/AggregatorV3Mock.sol",
     "mocks/ERC20Mock.sol",
     "mocks/LendingPoolAaveMock.sol",
+    "mocks/IAaveIncentivesController.sol",
 
     "oracles/OracleManagerBand.sol",
     "oracles/OracleManagerChainlink.sol",

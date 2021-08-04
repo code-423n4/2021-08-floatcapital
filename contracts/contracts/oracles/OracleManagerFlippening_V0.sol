@@ -145,16 +145,14 @@ contract OracleManagerFlippening_V0 is IOracleManager {
   ////////////////////////////////////
 
   function _getBtcSupply() internal view returns (uint256) {
-    return
-      btcSupply + (((block.timestamp - lastUpdated) * btcBlocksPerDay * btcBlockReward) / (1 days));
+    return btcSupply + (((block.timestamp - lastUpdated) * btcBlocksPerDay * btcBlockReward) / (1 days));
   }
 
   function _getEthSupply() internal view returns (uint256) {
     return
       ethSupply +
       (((block.timestamp - lastUpdated) *
-        (ethBlocksPerDay * ethBlockReward + ethUnclesPerDay * (ethNephewReward + ethUncleReward))) /
-        1 days);
+        (ethBlocksPerDay * ethBlockReward + ethUnclesPerDay * (ethNephewReward + ethUncleReward))) / 1 days);
   }
 
   function _updatePrice() private returns (int256) {
@@ -169,9 +167,7 @@ contract OracleManagerFlippening_V0 is IOracleManager {
     // btcSupply * btcPrice = 16 decimals
 
     // 1e20 as 18 decimals but as %
-    ethDominance = int256(
-      (uint256(_ethPrice) * ethSupply * 1e20) / (uint256(_btcPrice) * btcSupply * 1e10)
-    );
+    ethDominance = int256((uint256(_ethPrice) * ethSupply * 1e20) / (uint256(_btcPrice) * btcSupply * 1e10));
 
     return ethDominance;
   }

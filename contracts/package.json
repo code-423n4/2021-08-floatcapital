@@ -10,7 +10,7 @@
     "test-waffle": " WAFFLE_TEST='true' hardhat test",
     "test-unit": "DONT_RUN_INTEGRATION_TESTS='true' yarn test-waffle",
     "test-integration": "DONT_RUN_UNIT_TESTS='true' yarn test-waffle",
-    "test": "npm test-waffle && npm test-truffle",
+    "test": "npm run test-waffle && npm run test-truffle",
     "coverage-waffle": "WAFFLE_TEST='true' hardhat coverage",
     "coverage-unit": "DONT_RUN_INTEGRATION_TESTS='true' WAFFLE_TEST='true' hardhat coverage",
     "coverage-integration": "DONT_RUN_UNIT_TESTS='true' WAFFLE_TEST='true' hardhat coverage",

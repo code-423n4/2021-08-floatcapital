@@ -58,7 +58,7 @@ const deployTestMarket = async (
       testnetChainlinkDaiUsdAddress,
       testnetChainlinkEthUsdAddress,
       testnetChainlinkMaticUsdAddress,
-      60
+      0 // set to zero so there is ALWAYS a price change
     );
   } else {
     oracleManager = await OracleManagerMock.new(admin);
@@ -280,25 +280,25 @@ module.exports = async function (deployer, network, accounts) {
     token
   );
 
-  await deployTestMarket(
-    "The Flippening",
-    "EBD",
-    longShort,
-    treasury,
-    admin,
-    network,
-    token
-  );
+  // await deployTestMarket(
+  //   "The Flippening",
+  //   "EBD",
+  //   longShort,
+  //   treasury,
+  //   admin,
+  //   network,
+  //   token
+  // );
 
-  await deployTestMarket(
-    "Doge Market",
-    "FL_DOGE",
-    longShort,
-    treasury,
-    admin,
-    network,
-    token
-  );
+  // await deployTestMarket(
+  //   "Doge Market",
+  //   "FL_DOGE",
+  //   longShort,
+  //   treasury,
+  //   admin,
+  //   network,
+  //   token
+  // );
 
   const currentMarketIndex = (await longShort.latestMarket()).toNumber();
 
@@ -399,6 +399,10 @@ module.exports = async function (deployer, network, accounts) {
       oracleManager,
       network
     );
+
+    await stakeSynth("100", long, user1);
+    let firstShift = await staker.shiftTokens("5", marketIndex, true, { from: user1 });
+    let stateUpdate = await longShort.updateSystemState(marketIndex);
 
     if (network != "mumbai") {
       // if not using oracle manager mock no guarantee they have tokens

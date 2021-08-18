@@ -18,11 +18,11 @@ contract StakerForInternalMocking {
     return ();
   }
 
-  function onlyValidMarketModifierLogicMock(uint32) public pure {
+  function onlyLongShortModifierLogicMock() public pure {
     return ();
   }
 
-  function onlyLongShortModifierLogicMock() public pure {
+  function _updateUsersStakedPosition_mintAccumulatedFloatAndExecuteOutstandingShiftsMock(uint32, address) public pure {
     return ();
   }
 
@@ -42,14 +42,6 @@ contract StakerForInternalMocking {
   }
 
   function _changeUnstakeFeeMock(uint32, uint256) public pure {
-    return ();
-  }
-
-  function _changeMarketLaunchIncentiveParametersMock(
-    uint32,
-    uint256,
-    uint256
-  ) public pure {
     return ();
   }
 
@@ -79,10 +71,10 @@ contract StakerForInternalMocking {
     return (abi.decode("", (uint256)), abi.decode("", (uint256)));
   }
 
-  function _calculateTimeDeltaFromLastAccumulativeIssuancePerStakedSynthSnapshotMock(uint32)
+  function _calculateTimeDeltaFromLastAccumulativeIssuancePerStakedSynthSnapshotMock(uint32, uint256)
     public
     pure
-    returns (uint256)
+    returns (uint256 timeDelta)
   {
     return (abi.decode("", (uint256)));
   }
@@ -92,19 +84,10 @@ contract StakerForInternalMocking {
     uint256,
     uint256,
     uint256,
+    uint256,
     uint256
   ) public pure returns (uint256 longCumulativeRates, uint256 shortCumulativeRates) {
     return (abi.decode("", (uint256)), abi.decode("", (uint256)));
-  }
-
-  function _setCurrentAccumulativeIssuancePerStakeStakedSynthSnapshotMock(
-    uint32,
-    uint256,
-    uint256,
-    uint256,
-    uint256
-  ) public pure {
-    return ();
   }
 
   function _calculateAccumulatedFloatInRangeMock(
@@ -117,7 +100,11 @@ contract StakerForInternalMocking {
     return (abi.decode("", (uint256)));
   }
 
-  function _calculateAccumulatedFloatMock(uint32, address) public pure returns (uint256 floatReward) {
+  function _calculateAccumulatedFloatAndExecuteOutstandingShiftsMock(uint32, address)
+    public
+    pure
+    returns (uint256 floatReward)
+  {
     return (abi.decode("", (uint256)));
   }
 
@@ -125,23 +112,15 @@ contract StakerForInternalMocking {
     return ();
   }
 
-  function _mintAccumulatedFloatMock(uint32, address) public pure {
+  function _mintAccumulatedFloatAndExecuteOutstandingShiftsMock(uint32, address) public pure {
     return ();
   }
 
-  function _mintAccumulatedFloatMultiMock(uint32[] memory, address) public pure {
+  function _mintAccumulatedFloatAndExecuteOutstandingShiftsMultiMock(uint32[] memory, address) public pure {
     return ();
   }
 
   function stakeFromUserMock(address, uint256) public pure {
-    return ();
-  }
-
-  function _stakeMock(
-    address,
-    uint256,
-    address
-  ) public pure {
     return ();
   }
 

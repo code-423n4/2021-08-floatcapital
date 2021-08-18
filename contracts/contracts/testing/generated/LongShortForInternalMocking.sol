@@ -5,6 +5,7 @@ import "./LongShortMockable.sol";
 
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "../../interfaces/ITokenFactory.sol";
 import "../../interfaces/ISyntheticToken.sol";
 import "../../interfaces/IStaker.sol";
@@ -22,7 +23,6 @@ contract LongShortForInternalMocking {
   }
 
   function initializeMock(
-    address,
     address,
     address,
     address
@@ -84,11 +84,11 @@ contract LongShortForInternalMocking {
     return (abi.decode("", (bool)), abi.decode("", (uint256)));
   }
 
-  function _claimAndDistributeYieldThenRebalanceMarketMock(
-    uint32,
-    int256,
-    int256
-  ) public pure returns (uint256 longValue, uint256 shortValue) {
+  function _claimAndDistributeYieldThenRebalanceMarketMock(uint32, int256)
+    public
+    pure
+    returns (uint256 longValue, uint256 shortValue)
+  {
     return (abi.decode("", (uint256)), abi.decode("", (uint256)));
   }
 
@@ -116,7 +116,7 @@ contract LongShortForInternalMocking {
     return ();
   }
 
-  function _shiftPositionNextPriceMock(
+  function shiftPositionNextPriceMock(
     uint32,
     uint256,
     bool

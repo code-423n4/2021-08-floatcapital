@@ -6,6 +6,11 @@ import "./interfaces/IStaker.sol";
 import "./interfaces/ILongShort.sol";
 import "./interfaces/ISyntheticToken.sol";
 
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/draft-ERC20Permit.sol";
+
 /**
 @title SyntheticToken
 @notice An ERC20 token that tracks or inversely tracks the price of an
@@ -13,15 +18,17 @@ import "./interfaces/ISyntheticToken.sol";
 @dev Logic for price tracking contained in LongShort.sol. 
      The contract inherits from ERC20PresetMinterPauser.sol
 */
-contract SyntheticToken is ISyntheticToken {
+contract SyntheticToken is ISyntheticToken, ERC20, ERC20Burnable, AccessControl, ERC20Permit {
+  bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+
   /// @notice Address of the LongShort contract, a deployed LongShort.sol
-  address public longShort;
+  address public immutable longShort;
   /// @notice Address of the Staker contract, a deployed Staker.sol
-  address public staker;
+  address public immutable staker;
   /// @notice Identifies which market in longShort the token is for.
-  uint32 public marketIndex;
+  uint32 public immutable marketIndex;
   /// @notice Whether the token is a long token or short token for its market.
-  bool public isLong;
+  bool public immutable isLong;
 
   /// @notice Creates an instance of the contract.
   /// @dev Should only be called by TokenFactory.sol for our system.
@@ -38,11 +45,14 @@ contract SyntheticToken is ISyntheticToken {
     address _staker,
     uint32 _marketIndex,
     bool _isLong
-  ) ERC20PresetMinterPauser(name, symbol) {
+  ) ERC20(name, symbol) ERC20Permit(name) {
     longShort = _longShort;
     staker = _staker;
     marketIndex = _marketIndex;
     isLong = _isLong;
+
+    _setupRole(DEFAULT_ADMIN_ROLE, _longShort);
+    _setupRole(MINTER_ROLE, _longShort);
   }
 
   /// @notice Allows users to stake their synthetic tokens to earn Float.
@@ -60,6 +70,10 @@ contract SyntheticToken is ISyntheticToken {
     ║    FUNCTIONS INHERITED BY ERC20PresetMinterPauser    ║
     ╚══════════════════════════════════════════════════════╝*/
 
+  function totalSupply() public view virtual override(ERC20, ISyntheticToken) returns (uint256) {
+    return ERC20.totalSupply();
+  }
+
   /** 
   @notice Mints a number of synthetic tokens for an address.
   @dev Can only be called by addresses with a minter role. 
@@ -67,17 +81,16 @@ contract SyntheticToken is ISyntheticToken {
   @param to The address for which to mint the tokens for.
   @param amount Amount of synthetic tokens to mint in wei.
   */
-  function mint(address to, uint256 amount) public override {
-    ERC20PresetMinterPauser.mint(to, amount);
+  function mint(address to, uint256 amount) external override onlyRole(MINTER_ROLE) {
+    _mint(to, amount);
   }
 
   /// @notice Burns or destroys a number of held synthetic tokens for an address.
   /// @dev Modified to only allow Long Short to burn tokens on redeem.
-  /// @param account The account for which to burn tokens for.
   /// @param amount The amount of tokens to burn in wei.
-  function _burn(address account, uint256 amount) internal override {
+  function burn(uint256 amount) public override(ERC20Burnable, ISyntheticToken) {
     require(msg.sender == longShort, "Only LongShort contract");
-    super._burn(account, amount);
+    super._burn(_msgSender(), amount);
   }
 
   /** 
@@ -92,13 +105,18 @@ contract SyntheticToken is ISyntheticToken {
     address sender,
     address recipient,
     uint256 amount
-  ) public override returns (bool) {
+  ) public override(ERC20, ISyntheticToken) returns (bool) {
     if (recipient == longShort && msg.sender == longShort) {
-      super._transfer(sender, recipient, amount);
+      // If it to longShort and msg.sender is longShort don't perform additional transfer checks.
+      ERC20._transfer(sender, recipient, amount);
       return true;
     } else {
-      return super.transferFrom(sender, recipient, amount);
+      return ERC20.transferFrom(sender, recipient, amount);
     }
+  }
+
+  function transfer(address recipient, uint256 amount) public virtual override(ERC20, ISyntheticToken) returns (bool) {
+    return ERC20.transfer(recipient, amount);
   }
 
   /** 
@@ -110,12 +128,13 @@ contract SyntheticToken is ISyntheticToken {
   */
   function _beforeTokenTransfer(
     address sender,
-    address,
-    uint256
+    address to,
+    uint256 amount
   ) internal override {
     if (sender != longShort) {
       ILongShort(longShort).executeOutstandingNextPriceSettlementsUser(sender, marketIndex);
     }
+    super._beforeTokenTransfer(sender, to, amount);
   }
 
   /** 

@@ -13,14 +13,7 @@ contract TokenFactory is ITokenFactory {
     ╚═══════════════════════════╝*/
 
   /// @notice address of long short contract
-  address public longShort;
-
-  /// @notice admin role hash for the synthetic token
-  bytes32 public constant DEFAULT_ADMIN_ROLE = keccak256("DEFAULT_ADMIN_ROLE");
-  /// @notice minter role hash for the synthetic token
-  bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
-  /// @notice pauser role hash for the synthetic token
-  bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
+  address public immutable longShort;
 
   /*╔═══════════════════════════╗
     ║         MODIFIERS         ║
@@ -63,15 +56,5 @@ contract TokenFactory is ITokenFactory {
     syntheticToken = address(
       new SyntheticToken(syntheticName, syntheticSymbol, longShort, staker, marketIndex, isLong)
     );
-
-    // Give minter roles
-    SyntheticToken(syntheticToken).grantRole(DEFAULT_ADMIN_ROLE, longShort);
-    SyntheticToken(syntheticToken).grantRole(MINTER_ROLE, longShort);
-    SyntheticToken(syntheticToken).grantRole(PAUSER_ROLE, longShort);
-
-    // Revoke roles
-    SyntheticToken(syntheticToken).revokeRole(DEFAULT_ADMIN_ROLE, address(this));
-    SyntheticToken(syntheticToken).revokeRole(MINTER_ROLE, address(this));
-    SyntheticToken(syntheticToken).revokeRole(PAUSER_ROLE, address(this));
   }
 }

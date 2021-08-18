@@ -81,7 +81,8 @@ contract BandOracleMock is IBandOracle, Initializable {
     require(_bases.length == _quotes.length);
 
     IBandOracle.ReferenceData[] memory refs = new IBandOracle.ReferenceData[](_quotes.length);
-    for (uint256 i = 0; i < _bases.length; i++) {
+    uint256 length = _bases.length;
+    for (uint256 i = 0; i < length; i++) {
       refs[i] = this.getReferenceData(_bases[i], _quotes[i]);
     }
 

@@ -4,6 +4,7 @@ pragma solidity 0.8.3;
 
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "../../interfaces/ITokenFactory.sol";
 import "../../interfaces/ISyntheticToken.sol";
 import "../../interfaces/IStaker.sol";
@@ -166,27 +167,26 @@ contract LongShortMockable is LongShortInternalStateSetters {
     }
   }
 
-  function _claimAndDistributeYieldThenRebalanceMarketExposed(
-    uint32 marketIndex,
-    int256 newAssetPrice,
-    int256 oldAssetPrice
-  ) external returns (uint256 longValue, uint256 shortValue) {
-    return super._claimAndDistributeYieldThenRebalanceMarket(marketIndex, newAssetPrice, oldAssetPrice);
+  function _claimAndDistributeYieldThenRebalanceMarketExposed(uint32 marketIndex, int256 newAssetPrice)
+    external
+    returns (uint256 longValue, uint256 shortValue)
+  {
+    return super._claimAndDistributeYieldThenRebalanceMarket(marketIndex, newAssetPrice);
   }
 
-  function _claimAndDistributeYieldThenRebalanceMarket(
-    uint32 marketIndex,
-    int256 newAssetPrice,
-    int256 oldAssetPrice
-  ) internal override returns (uint256 longValue, uint256 shortValue) {
+  function _claimAndDistributeYieldThenRebalanceMarket(uint32 marketIndex, int256 newAssetPrice)
+    internal
+    override
+    returns (uint256 longValue, uint256 shortValue)
+  {
     if (
       shouldUseMock &&
       keccak256(abi.encodePacked(functionToNotMock)) !=
       keccak256(abi.encodePacked("_claimAndDistributeYieldThenRebalanceMarket"))
     ) {
-      return mocker._claimAndDistributeYieldThenRebalanceMarketMock(marketIndex, newAssetPrice, oldAssetPrice);
+      return mocker._claimAndDistributeYieldThenRebalanceMarketMock(marketIndex, newAssetPrice);
     } else {
-      return super._claimAndDistributeYieldThenRebalanceMarket(marketIndex, newAssetPrice, oldAssetPrice);
+      return super._claimAndDistributeYieldThenRebalanceMarket(marketIndex, newAssetPrice);
     }
   }
 
@@ -233,12 +233,7 @@ contract LongShortMockable is LongShortInternalStateSetters {
     uint32 marketIndex,
     uint256 amount,
     bool isLong
-  )
-    internal
-    override
-    updateSystemStateMarket(marketIndex)
-    executeOutstandingNextPriceSettlements(msg.sender, marketIndex)
-  {
+  ) internal override updateSystemStateMarketAndAxecuteOutstandingNextPriceSettlements(msg.sender, marketIndex) {
     if (
       shouldUseMock && keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_mintNextPrice"))
     ) {
@@ -260,12 +255,7 @@ contract LongShortMockable is LongShortInternalStateSetters {
     uint32 marketIndex,
     uint256 tokens_redeem,
     bool isLong
-  )
-    internal
-    override
-    updateSystemStateMarket(marketIndex)
-    executeOutstandingNextPriceSettlements(msg.sender, marketIndex)
-  {
+  ) internal override updateSystemStateMarketAndAxecuteOutstandingNextPriceSettlements(msg.sender, marketIndex) {
     if (
       shouldUseMock && keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_redeemNextPrice"))
     ) {
@@ -275,31 +265,18 @@ contract LongShortMockable is LongShortInternalStateSetters {
     }
   }
 
-  function _shiftPositionNextPriceExposed(
+  function shiftPositionNextPrice(
     uint32 marketIndex,
     uint256 amountSyntheticTokensToShift,
     bool isShiftFromLong
-  ) external {
-    return super._shiftPositionNextPrice(marketIndex, amountSyntheticTokensToShift, isShiftFromLong);
-  }
-
-  function _shiftPositionNextPrice(
-    uint32 marketIndex,
-    uint256 amountSyntheticTokensToShift,
-    bool isShiftFromLong
-  )
-    internal
-    override
-    updateSystemStateMarket(marketIndex)
-    executeOutstandingNextPriceSettlements(msg.sender, marketIndex)
-  {
+  ) public override updateSystemStateMarketAndAxecuteOutstandingNextPriceSettlements(msg.sender, marketIndex) {
     if (
       shouldUseMock &&
-      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("_shiftPositionNextPrice"))
+      keccak256(abi.encodePacked(functionToNotMock)) != keccak256(abi.encodePacked("shiftPositionNextPrice"))
     ) {
-      return mocker._shiftPositionNextPriceMock(marketIndex, amountSyntheticTokensToShift, isShiftFromLong);
+      return mocker.shiftPositionNextPriceMock(marketIndex, amountSyntheticTokensToShift, isShiftFromLong);
     } else {
-      return super._shiftPositionNextPrice(marketIndex, amountSyntheticTokensToShift, isShiftFromLong);
+      return super.shiftPositionNextPrice(marketIndex, amountSyntheticTokensToShift, isShiftFromLong);
     }
   }
 

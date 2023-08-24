@@ -67,7 +67,7 @@ If you have any questions about the scope, just shoot us a message!
 
 Put simply, Float is the easiest and safest way for users to mint synthetic assets. Users do not need to worry about over-collateralization, or suddenly getting liquidated.
 
-In its most basic form, the Float protocol creates a 'peer-to-peer' exposure market where long positions on one synthetic asset, are offset by short positions on that same synthetic asset (synth). For example, Imagine Alice has $100 000 of short exposure to a synth, while Bob had $100 000 of long exposure to this synth. Given this, a 1% decrease in the underlying asset price would mean that Alice now has $101 000 of value while bob has $99 000 of value.
+In its most basic form, the Float protocol creates a 'peer-to-peer' exposure market where long positions on one synthetic asset, are offset by short positions on that same synthetic asset (synth). For example, Imagine Alice has &#36;100 000 of short exposure to a synth, while Bob had &#36;100 000 of long exposure to this synth. Given this, a 1% decrease in the underlying asset price would mean that Alice now has &#36;101 000 of value while bob has &#36;99 000 of value.
 
 We refer you to the [documentation](https://docs.float.capital/) for finer details.
 
